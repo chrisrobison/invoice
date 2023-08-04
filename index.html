@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<nav>
+    <div class='toolbar'>
+        <button id='importBtn' class='btn' title="Immport Data" onclick="return app.importData()"></button>
+        <button id='exportBtn' class='btn' title="Export Data" onclick="return app.exportData()"></button>
+        <button id='printBtn' class='btn' title="Print Invoice" onclick="return app.printInvoice()"></button>
+        <button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()"></button>
+        <button id='newBtn' class='btn' title="New Invoice" onclick="return app.newInvoice()"></button>
+        <button id='saveBtn' class='btn' title="Save Invoice" onclick="return app.saveInvoice()"></button>
+    </div>
+    <select size="10" id="invoices" name="invoices"></select>
+</nav>
+<main>
+<h1>Invoice from Christopher Robison</h1>
+<div class="prehead">
+    <div class="info">Date: <input type="date" id="date" name="date">
+        <!--span id="month" contenteditable>7</span>/<span id="day" contenteditable>31</span>/<span id="year" contenteditable>2023</span-->
+    </div>
+    <div class="info">Invoice #<span id="invoice_id" contenteditable>202307311</span></div>
+</div>
+<header>
+    <div class="address">
+        From:
+        <blockquote>
+            <label>Christopher Robison</label><br>
+            621 Holloway Ave<br>
+            San Francisco, CA 94112<br>
+            <p>(415) 810-6991 | <a href="mailto:cdr@cdr2.com">cdr@cdr2.com</a></p>
+        </blockquote>
+    </div>
+    <div class="address" style="border-left: 1px solid #0004;">
+        To:
+        <blockquote id="to" >
+            <input type="text" id="company" value="D Harris Tours" onchange="app.data.current.company=this.value" style="font-size:1.1rem;font-weight:400;"><br>
+            <input type="text" id="address" onchange="app.data.current.address=this.value" value="2294 Vista del Rio St"><br>
+            <input type="text" id="citystate" onchange="app.data.current.citystate=this.value" value="Crockett, CA 94525"><br>
+            <p><input type="text" id="phone" onchange="app.data.current.phone=this.value" value="(415) 902-8542"> | <input type="text" id="email" onchange="app.data.current.email=this.value" value="juanaharrisdht@att.net"></p>
+        </blockquote>
+    </div>
+</header>
+<table class="lineitems">
+    <thead>
+        <tr>
+            <th>Date</th><th>Service</th><th>Hours</th><th>Rate</th><th>Description</th><th>Subtotal</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="lastrow"><td colspan="7" style="text-align:right"><button style="float:right;" onclick="app.addRow()">Add Line Item</button></td></tr>
+        <tr>
+            <td colspan="7" style="text-align:right">
+                <table class="tally">
+                    <tr><td class="label">Subtotal</td><td id="subtotal" contenteditable></td></tr>
+                    <tr><td class="label">Tax</td><td id="tax" contenteditable></td></tr>
+                    <tr><td class="label">Total Due</td><td id="totaldue" contenteditable></td></tr>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</main>
+<dialog id="importDialog">
+    <form>
+        <h2>Import Data</h2>
+        <p>Copy &amp; paste a JSON array of objects conforming to the json invoice data structure into the form element below and click "Import"</p>
+        <p><label>JSON Import</label><textarea id="jsonimport" name="jsonimport" rows="6" cols="50"></textarea></p>
+        <button value="cancel" formmethod="dialog">Cancel</button>
+        <button value="default" id="confirmBtn">Import</button>
+    </form>
+</dialog>
+<script src="main.js"></script>
+</body>
+
+</html>
