@@ -35,7 +35,8 @@ const $$ = str => document.querySelectorAll(str);
         },
         state: {
             loaded: false,
-            rowedit: 0
+            rowedit: 0,
+            debug: 0
         },
         init: function() {
             // app.getData(app.buildInvoice);
@@ -54,8 +55,10 @@ const $$ = str => document.querySelectorAll(str);
             }
         },
         loadInvoice: function(e) {
-            console.log("loadInvoice");
-            console.dir(e);
+            if (app.state.debug) {
+                console.log("loadInvoice");
+                console.dir(e);
+            }
             app.resetInvoice();
             app.data.id = $("#invoices").options[$("#invoices").selectedIndex].value;
 
@@ -67,7 +70,10 @@ const $$ = str => document.querySelectorAll(str);
             fetch("invoices.json").then(r=>r.json()).then(data=>{
                 app.data.invoices = data;
                 app.data.current = app.data.invoices[0];
-                console.dir(data);
+                if (app.state.debug) {
+                    console.log("getData");
+                    console.dir(data);
+                }
 
                 app.makeInvoiceList();
                 callback();
@@ -93,8 +99,10 @@ const $$ = str => document.querySelectorAll(str);
             html2pdf(el, { filename: app.data.current.id + '.pdf' });
         },
         deleteItem: function(e) {
-            console.log("deleteItem");
-            console.dir(e);
+            if (app.state.debug) {
+                console.log("deleteItem");
+                console.dir(e);
+            }
             let id = parseInt(e.target.id.replace(/\D/g, ""));
             if (confirm("Delete row?")) {
                 e.target.parentNode.removeChild(e.target);
@@ -115,6 +123,8 @@ const $$ = str => document.querySelectorAll(str);
             });
             //$("#to").innerHTML = `<label>${app.data.current.company}</label><br>${app.data.current.address}<br>${app.data.current.citystate}<p>${app.data.current.phone} | ${app.data.current.email}</p>`;
             $("#company").value = app.data.current.company;
+            $("#email").value = app.data.current.email;
+            $("#phone").value = app.data.current.phone;
             $("#address").value = app.data.current.address;
             $("#citystate").value = app.data.current.citystate;
             $("#date").value = app.data.current.date;
@@ -123,8 +133,15 @@ const $$ = str => document.querySelectorAll(str);
             app.updateTotals();
         },
         resetInvoice: function() {
-            console.log("reseting invoice");
-            $$(".lineitem").forEach(item=>{ console.dir(item); item.parentNode.removeChild(item) });
+            if (app.state.debug) {
+                console.log("reseting invoice");
+            }
+            $$(".lineitem").forEach(item=>{ 
+                if (app.state.debug) {
+                    console.dir(item); 
+                }
+                item.parentNode.removeChild(item) 
+            });
 
         },
         updateTotals: function() {
@@ -166,7 +183,9 @@ const $$ = str => document.querySelectorAll(str);
             }
             lineitem["total"] = lineitem.qty * lineitem.rate;
 
-            console.dir(lineitem);
+            if (app.state.debug) {
+                console.dir(lineitem);
+            }
             app.data.current.lineitems.push(lineitem);
             
             $("#newrow").parentNode.removeChild($("#newrow"));
