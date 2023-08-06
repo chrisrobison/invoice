@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "dom-to-pdf": "^0.3.2"
+  },
+  "name": "invoice",
+  "description": "Simple, self-contained, no external libraries (optional dom-to-pdf), client-side invoice creator with all data stored locally as JSON in-browser",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

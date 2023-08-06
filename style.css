@@ -243,7 +243,10 @@ input,
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
-    border-bottom: 1px solid #0004;
+    border-bottom: 1px dashed #000a;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: "Lexend", sans-serif;
 }
 
 button.btn {
@@ -337,5 +340,5 @@ dialog#importDialog h2 {
     margin-bottom: 1rem;
 }
 dialog::backdrop {
-    background-color:#0006;
+    background-color:#0009;
 }

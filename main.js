@@ -34,13 +34,24 @@ const $$ = str => document.querySelectorAll(str);
             ]
         },
         state: {
-            loaded: false
+            loaded: false,
+            rowedit: 0
         },
         init: function() {
             // app.getData(app.buildInvoice);
             app.loadData();
             $("#invoices").addEventListener("change", app.loadInvoice);
+            document.addEventListener("keydown", app.doKey);
             app.state.loaded = true;
+        },
+        doKey: function(e) {
+            console.log("Key pressed");
+            console.dir(e);
+            
+            if ((app.state.rowedit) && (e.keyCode == 27)) {
+                $("#newrow").parentNode.removeChild($("#newrow"));
+                app.state.rowedit = 0;
+            }
         },
         loadInvoice: function(e) {
             console.log("loadInvoice");
@@ -79,7 +90,7 @@ const $$ = str => document.querySelectorAll(str);
         printInvoice: function() {
             $("body").classList.add("print");
             let el = $("main");
-            html2pdf(el);
+            html2pdf(el, { filename: app.data.current.id + '.pdf' });
         },
         deleteItem: function(e) {
             console.log("deleteItem");
@@ -138,6 +149,7 @@ const $$ = str => document.querySelectorAll(str);
             app.makeInvoiceList();
         },
         saveRow: function() {
+            app.state.rowedit = 0;
             let lineitem = {};
             let date = $("#item-date").value;
             let parts = date.split(/\-/);
@@ -150,7 +162,7 @@ const $$ = str => document.querySelectorAll(str);
             let fields = ['service', 'qty', 'rate', 'desc'];
             for (let i=0; i<fields.length; i++) {
                 let field = fields[i];
-                lineitem[field] = $(`#item-${field}`).innerHTML;
+                lineitem[field] = $(`#item-${field}`).value;
             }
             lineitem["total"] = lineitem.qty * lineitem.rate;
 
@@ -173,8 +185,9 @@ const $$ = str => document.querySelectorAll(str);
             let newrow = document.createElement("tr");
             newrow.id = "newrow";
             newrow.className = "lineitem";
-            newrow.innerHTML = `<td><input type="date" id="item-date" name="item-date"></td><td id='item-service' contenteditable></td><td id='item-qty' contenteditable></td><td>$<span id='item-rate' contenteditable></span>/hr</td><td id='item-desc' contenteditable></td><td id='item-subtotal'></td><td><button onclick="app.saveRow()">save</button></td>`;
+            newrow.innerHTML = `<td><input type="date" id="item-date" name="item-date" style="width:7rem;"></td><td><input type='text' id='item-service' placeholder='Service Rendered'></td><td><input type='text' id='item-qty' placeholder='8' size='2' style='text-align:center;'></td><td style='white-space:nowrap;'>$<input type='text' id='item-rate' placeholder='75' size='3' style='text-align:center;'>/hr</td><td><input type='text' id='item-desc' placeholder='Service description' size='25'></td><td id='item-subtotal'></td><td><button onclick="app.saveRow()">save</button></td>`;
             $(".lineitems tbody").insertBefore(newrow, $("#lastrow"));
+            app.state.rowedit = 1;
         },
         fetch: function(url, callback) {
             fetch(url).then(response=>response.json()).then(data=>{
@@ -287,7 +300,7 @@ const $$ = str => document.querySelectorAll(str);
             }
         },
         importData: function() {
-            $("#importDialog").show();
+            $("#importDialog").showModal();
         },
         exportData: function() {
             let data = JSON.stringify(app.data.invoices);
