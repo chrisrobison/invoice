@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,11 +19,12 @@
         <button id='importBtn' class='btn' title="Immport Data" onclick="return app.importData()"></button>
         <button id='exportBtn' class='btn' title="Export Data" onclick="return app.exportData()"></button>
         <button id='printBtn' class='btn' title="Print Invoice" onclick="return app.printInvoice()"></button>
+        <button id='archiveBtn' class='btn' title="Archive Invoice" onclick="return app.archiveInvoice()"></button>
         <button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()"></button>
         <button id='newBtn' class='btn' title="New Invoice" onclick="return app.newInvoice()"></button>
         <button id='saveBtn' class='btn' title="Save Invoice" onclick="return app.saveInvoice()"></button>
     </div>
-    <select size="10" id="invoices" name="invoices"></select>
+    <select id="invoices" name="invoices"></select>
 </nav>
 <main>
 <h1>Invoice from Christopher Robison</h1>
@@ -45,10 +47,11 @@
     <div class="address" style="border-left: 1px solid #0004;">
         To:
         <blockquote id="to" >
-            <input type="text" id="company" value="D Harris Tours" onchange="app.data.current.company=this.value" style="font-size:1.1rem;font-weight:400;"><br>
-            <input type="text" id="address" onchange="app.data.current.address=this.value" value="2294 Vista del Rio St"><br>
-            <input type="text" id="citystate" onchange="app.data.current.citystate=this.value" value="Crockett, CA 94525"><br>
-            <p><input type="text" id="phone" onchange="app.data.current.phone=this.value" value="(415) 902-8542"> | <input type="text" id="email" onchange="app.data.current.email=this.value" value="juanaharrisdht@att.net"></p>
+            <label><i class="fas fa-building" style="color:#919191;"></i></label> <input type="text" id="company" placeholder="Company Name" value="" onchange="app.data.current.company=this.value" style="font-size:1.1rem;font-weight:400;"><br>
+            <label><i class="fas fa-location-dot" style="color:#919191;"></i></label>  <input type="text" id="address" placeholder="Address" onchange="app.data.current.address=this.value" value=""><br>
+                <label></label> <input type="text" id="citystate" placeholder="City, State PostalCode" onchange="app.data.current.citystate=this.value" value=""><br>
+                <label><i class="fas fa-phone" style="color:#919191;"></i></label>  <input type="text" id="phone" onchange="app.data.current.phone=this.value" placeholder="(xxx) xxx-xxxx" value=""><br>
+                <label><i class="fas fa-envelope" style="color:#919191;"></i></label> <input type="text" id="email" onchange="app.data.current.email=this.value" placeholder="email@example.com" value="">
         </blockquote>
     </div>
 </header>

@@ -11,10 +11,10 @@ body {
     padding: 0;
     font-size: 14px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    background: #202124;
+    background: #086f77;
     align-content: flex-start;
 }
 
@@ -41,14 +41,22 @@ main {
     align-items: center;
     justify-content: flex-start;
     width: 8.25in;
-    height: 100vh;
+    height: 90vh;
     background-color: #fff;
+    box-shadow: 4px 0px 4px #0004;
+    margin: 0 auto;
 }
 
 footer {
     background-color: #666;
     color: #eee;
     height: 0vh;
+}
+
+nav {
+    box-shadow: -4px 0px 4px #0003;
+    width: 8.25in;
+    margin: 0 auto;
 }
 
 li {
@@ -71,6 +79,7 @@ li {
 blockquote {
     margin-left: 2rem;
     font-weight: 300;
+    font-size: 16px;
 }
 
 .address {
@@ -188,7 +197,6 @@ a:hover {
     height: 2rem;
     width: 5rem;
     top: -2rem;
-
 }
 
 table.lineitems tr td[contenteditable=""],
@@ -238,6 +246,10 @@ option[SELECTED=true] {
     background-color: #9cf;
 }
 
+input {
+    width: 15rem;
+}
+
 input,
 #invoice_id {
     border-top: 0px;
@@ -247,6 +259,75 @@ input,
     font-size: 16px;
     font-weight: 300;
     font-family: "Lexend", sans-serif;
+}
+
+#date {
+    width: 8rem;
+}
+
+#invoice_id {
+    width: 8rem;
+    padding-left: 1rem;
+    display: inline-block;
+}
+
+input:hover,
+input:focus {
+    background-color: #ff03;
+}
+
+blockquote#to>label {
+    width: 2rem;
+    color: #919191;
+    display: inline-block;
+    text-align: center;
+}
+
+.toolbar {
+    text-align: right;
+    background: #35363a;
+    height: 5vh;
+}
+
+#invoices {
+    width: 100%;
+}
+
+dialog#importDialog {
+    width: 30rem;
+    padding: 1rem;
+    margin: 0 auto;
+    top: 10vh;
+}
+
+dialog#importDialog p {
+    margin-bottom: 1rem;
+}
+
+dialog#importDialog h2 {
+    margin-bottom: 1rem;
+}
+
+dialog::backdrop {
+    background-color: #0009;
+}
+
+@media only screen and (max-width:450px) {
+    body {
+        flex-direction: column;
+    }
+    main {
+        flex-direction: column;
+        width: 100vw;
+        height: 90vh;
+    }
+    .toolbar {
+        height: 10vh;
+        width: 100vw;
+    }
+    #invoices {
+        height: 3rem;
+    }
 }
 
 button.btn {
@@ -299,6 +380,13 @@ button#newBtn {
     background-position: center center;
 }
 
+button#archiveBtn {
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="226px" height="198px"><path fill-rule="evenodd" fill="rgb(200, 200, 200)" d="M218.302,0.038 C222.626,1.933 222.667,2.079 225.655,4.945 C226.136,12.273 226.064,25.392 225.655,36.840 C224.430,37.249 223.204,40.111 221.979,40.520 C148.453,40.520 4.554,40.844 1.379,40.520 C-1.056,39.662 0.562,38.066 0.153,36.840 C0.153,33.573 0.341,9.251 0.153,4.945 C-0.174,0.211 8.910,0.218 11.183,0.038 C13.456,-0.141 163.566,0.447 218.302,0.038 ZM16.085,49.107 C81.442,49.516 146.818,49.925 212.174,50.334 C212.174,94.900 212.174,139.480 212.174,184.046 C208.774,188.648 207.014,194.246 201.144,196.313 C156.212,196.722 111.266,197.131 66.333,197.540 C47.288,197.540 22.052,201.181 16.085,187.726 C11.197,179.892 13.634,160.451 13.634,148.471 C13.634,115.762 13.634,83.043 13.634,50.334 C14.451,49.925 15.268,49.516 16.085,49.107 ZM76.138,72.415 C72.785,77.192 71.249,79.346 71.235,88.362 C68.900,98.062 126.340,93.536 149.671,93.269 C154.844,92.418 157.586,82.936 153.348,74.868 C155.056,70.003 99.469,72.148 76.138,72.415 Z"/></svg>');
+}
+
 button#saveBtn {
     background-size: 24px 24px;
     background-repeat: no-repeat;
@@ -311,34 +399,4 @@ button#printBtn {
     background-repeat: no-repeat;
     background-position: center center;
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="241px" height="191px"><path fill-rule="evenodd" fill="rgb(200, 200, 200)" d="M52.228,-0.000 C97.738,-0.000 143.262,-0.000 188.772,-0.000 C188.772,13.413 188.772,26.829 188.772,40.242 C199.397,40.242 210.026,40.242 220.652,40.242 C228.830,40.242 235.034,40.088 238.397,44.747 C242.011,49.755 240.803,60.895 240.803,69.373 C240.803,88.691 240.803,108.015 240.803,127.333 C240.803,137.363 241.806,146.876 235.991,151.058 C232.265,153.737 226.287,153.461 219.750,153.461 C209.425,153.461 199.097,153.461 188.772,153.461 C188.772,165.973 188.772,178.488 188.772,191.000 C143.262,191.000 97.738,191.000 52.228,191.000 C52.228,178.488 52.228,165.973 52.228,153.461 C41.903,153.461 31.575,153.461 21.250,153.461 C14.716,153.461 8.731,153.740 5.009,151.058 C-0.803,146.870 0.197,137.368 0.197,127.333 C0.197,108.015 0.197,88.691 0.197,69.373 C0.197,60.900 -1.014,49.749 2.603,44.747 C5.964,40.100 12.183,40.242 20.348,40.242 C30.974,40.242 41.603,40.242 52.228,40.242 C52.228,26.829 52.228,13.413 52.228,-0.000 ZM63.958,11.712 C63.958,21.121 63.958,30.533 63.958,39.942 C66.792,40.871 71.682,40.242 75.086,40.242 C82.905,40.242 90.726,40.242 98.545,40.242 C124.608,40.242 150.679,40.242 176.741,40.242 C176.842,40.142 176.942,40.042 177.042,39.942 C177.042,30.533 177.042,21.121 177.042,11.712 C139.351,11.712 101.649,11.712 63.958,11.712 ZM211.328,57.660 C210.380,58.541 209.413,58.659 208.922,60.063 C207.826,61.524 207.836,68.510 208.922,69.973 C209.354,71.327 210.174,71.515 211.028,72.376 C214.712,72.421 219.069,72.487 221.855,71.775 C223.753,68.665 223.758,63.678 222.757,59.462 C219.302,57.182 216.998,57.606 211.328,57.660 ZM63.958,112.618 C63.958,134.839 63.958,157.067 63.958,179.288 C101.649,179.288 139.351,179.288 177.042,179.288 C177.042,157.067 177.042,134.839 177.042,112.618 C139.351,112.618 101.649,112.618 63.958,112.618 ZM78.394,127.033 C106.462,127.033 134.538,127.033 162.606,127.033 C162.363,130.568 162.596,133.681 162.606,138.445 C160.648,139.087 157.257,138.745 154.786,138.745 C148.772,138.745 142.755,138.745 136.741,138.745 C117.394,138.745 98.042,138.745 78.695,138.745 C77.703,135.789 78.369,130.574 78.394,127.033 ZM78.394,153.160 C106.462,153.160 134.538,153.160 162.606,153.160 C162.606,157.064 162.606,160.969 162.606,164.873 C134.538,164.873 106.462,164.873 78.394,164.873 C78.394,160.969 78.394,157.064 78.394,153.160 Z"/></svg>');
-}
-
-.toolbar {
-    text-align: right;
-    background: #35363a;
-    height: 5vh;
-}
-
-#invoices {
-    height: 95vh;
-}
-
-dialog#importDialog {
-    width: 30rem;
-    padding: 1rem;
-    margin: 0 auto;
-    top: 10vh;
-}
-
-
-dialog#importDialog p {
-    margin-bottom: 1rem;
-}
-
-
-dialog#importDialog h2 {
-    margin-bottom: 1rem;
-}
-dialog::backdrop {
-    background-color:#0009;
 }
