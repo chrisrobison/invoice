@@ -23,6 +23,7 @@
         <button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()"></button>
         <button id='newBtn' class='btn' title="New Invoice" onclick="return app.newInvoice()"></button>
         <button id='saveBtn' class='btn' title="Save Invoice" onclick="return app.saveInvoice()"></button>
+        <button id='helpBtn' class='btn' title="Help" onclick="return app.showHelp()"></button>
     </div>
     <select id="invoices" name="invoices"></select>
 </nav>
@@ -85,6 +86,16 @@
         <button value="default" id="confirmBtn">Import</button>
     </form>
 </dialog>
+<dialog id="helpDialog">
+    <div class="titlebar"><span class='icon helpIcon'></span> Help <a class="closeIcon" onclick="return app.closeDialog('help')"></a></div>
+    <form>
+        <h2>Invoice Tool Help</h2>
+        <p>Welcome to the <b>Invoice Tool</b>. This tool allows you to create simple ad-hoc invoices for print or export to PDF.  All data is stored locally in your browser; No accounts or signup required!  Totally self-contained without any external dependencies, the <b>Invoice Tool</b> Also works when offline.</p>
+        <button value="cancel" formmethod="dialog">Cancel</button>
+        <button value="default" id="confirmBtn">OK</button>
+    </form>
+</dialog>
+
 <script src="main.js"></script>
 </body>
 

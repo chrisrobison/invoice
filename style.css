@@ -293,6 +293,33 @@ blockquote#to>label {
     width: 100%;
 }
 
+dialog {
+
+}
+
+dialog#helpDialog {
+    width: 40rem;
+    padding: 1rem;
+    margin: 0 auto;
+    top: 10vh;
+    padding: 0px;
+}
+
+dialog#helpDialog p {
+    margin-bottom: 1rem;
+    min-height: 20rem;
+}
+
+dialog#helpDialog h2 {
+    margin-bottom: 1rem;
+}
+
+dialog#helpDialog form {
+    padding: 1rem;
+}
+.titlebar {
+    padding: 0.5rem 0.25rem;
+}
 dialog#importDialog {
     width: 30rem;
     padding: 1rem;
@@ -339,16 +366,21 @@ button.btn {
     border: none;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
+    transition: all 50ms linear;
+    position: relative;
+    top: 0px;
+    transform: scale(1);
 }
 
 button:hover {
-    background-color: #fff3;
+    transform: scale(1.05);
+    filter: drop-shadow(0px 2px 0px #0009) brightness(2);
 }
 
 button:active {
     position: relative;
-    top: 1px;
-    background-color: #fff6;
+    filter: sepia(1) saturate(5);
+    transform: scale(0.95) ;
 }
 
 button#importBtn {
@@ -401,4 +433,57 @@ button#printBtn {
     background-repeat: no-repeat;
     background-position: center center;
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="241px" height="191px"><path fill-rule="evenodd" fill="rgb(200, 200, 200)" d="M52.228,-0.000 C97.738,-0.000 143.262,-0.000 188.772,-0.000 C188.772,13.413 188.772,26.829 188.772,40.242 C199.397,40.242 210.026,40.242 220.652,40.242 C228.830,40.242 235.034,40.088 238.397,44.747 C242.011,49.755 240.803,60.895 240.803,69.373 C240.803,88.691 240.803,108.015 240.803,127.333 C240.803,137.363 241.806,146.876 235.991,151.058 C232.265,153.737 226.287,153.461 219.750,153.461 C209.425,153.461 199.097,153.461 188.772,153.461 C188.772,165.973 188.772,178.488 188.772,191.000 C143.262,191.000 97.738,191.000 52.228,191.000 C52.228,178.488 52.228,165.973 52.228,153.461 C41.903,153.461 31.575,153.461 21.250,153.461 C14.716,153.461 8.731,153.740 5.009,151.058 C-0.803,146.870 0.197,137.368 0.197,127.333 C0.197,108.015 0.197,88.691 0.197,69.373 C0.197,60.900 -1.014,49.749 2.603,44.747 C5.964,40.100 12.183,40.242 20.348,40.242 C30.974,40.242 41.603,40.242 52.228,40.242 C52.228,26.829 52.228,13.413 52.228,-0.000 ZM63.958,11.712 C63.958,21.121 63.958,30.533 63.958,39.942 C66.792,40.871 71.682,40.242 75.086,40.242 C82.905,40.242 90.726,40.242 98.545,40.242 C124.608,40.242 150.679,40.242 176.741,40.242 C176.842,40.142 176.942,40.042 177.042,39.942 C177.042,30.533 177.042,21.121 177.042,11.712 C139.351,11.712 101.649,11.712 63.958,11.712 ZM211.328,57.660 C210.380,58.541 209.413,58.659 208.922,60.063 C207.826,61.524 207.836,68.510 208.922,69.973 C209.354,71.327 210.174,71.515 211.028,72.376 C214.712,72.421 219.069,72.487 221.855,71.775 C223.753,68.665 223.758,63.678 222.757,59.462 C219.302,57.182 216.998,57.606 211.328,57.660 ZM63.958,112.618 C63.958,134.839 63.958,157.067 63.958,179.288 C101.649,179.288 139.351,179.288 177.042,179.288 C177.042,157.067 177.042,134.839 177.042,112.618 C139.351,112.618 101.649,112.618 63.958,112.618 ZM78.394,127.033 C106.462,127.033 134.538,127.033 162.606,127.033 C162.363,130.568 162.596,133.681 162.606,138.445 C160.648,139.087 157.257,138.745 154.786,138.745 C148.772,138.745 142.755,138.745 136.741,138.745 C117.394,138.745 98.042,138.745 78.695,138.745 C77.703,135.789 78.369,130.574 78.394,127.033 ZM78.394,153.160 C106.462,153.160 134.538,153.160 162.606,153.160 C162.606,157.064 162.606,160.969 162.606,164.873 C134.538,164.873 106.462,164.873 78.394,164.873 C78.394,160.969 78.394,157.064 78.394,153.160 Z"/></svg>');
+}
+button#helpBtn {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="170px" height="229px"> <path fill-rule="evenodd"  fill="rgb(200, 200, 200)" d="M64.535,167.430 C64.535,139.017 65.811,128.161 86.773,113.267 C98.195,105.149 105.071,100.049 105.071,87.914 C105.071,64.828 94.740,60.585 82.345,60.585 C65.811,60.585 57.529,71.844 56.368,82.784 L56.368,83.079 L0.974,83.079 C0.974,31.581 53.416,0.012 85.591,0.012 C120.909,0.012 169.026,18.856 169.026,76.865 C169.026,100.837 163.909,118.990 141.181,135.267 C128.488,144.443 123.177,146.119 123.177,167.430 L64.535,167.430 ZM124.161,228.988 L65.323,228.988 L65.323,187.257 L124.161,187.257 L124.161,228.988 Z"/></svg>');
+    background-size: 1rem 1rem;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.helpIcon {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="170px" height="229px"> <path fill-rule="evenodd"  fill="rgb(255,255,0,128)" d="M64.535,167.430 C64.535,139.017 65.811,128.161 86.773,113.267 C98.195,105.149 105.071,100.049 105.071,87.914 C105.071,64.828 94.740,60.585 82.345,60.585 C65.811,60.585 57.529,71.844 56.368,82.784 L56.368,83.079 L0.974,83.079 C0.974,31.581 53.416,0.012 85.591,0.012 C120.909,0.012 169.026,18.856 169.026,76.865 C169.026,100.837 163.909,118.990 141.181,135.267 C128.488,144.443 123.177,146.119 123.177,167.430 L64.535,167.430 ZM124.161,228.988 L65.323,228.988 L65.323,187.257 L124.161,187.257 L124.161,228.988 Z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #900;
+}
+.closeIcon {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="230px" height="230px"> <path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M221.251,67.681 C251.702,157.248 198.173,219.397 131.141,228.825 C41.186,241.477 -22.970,150.178 7.777,73.052 C19.901,42.641 58.474,0.575 110.759,0.000 C163.045,-0.575 200.843,23.827 221.251,67.681 ZM77.505,55.863 L56.050,77.349 L93.596,113.875 L56.050,151.476 L76.432,174.036 L115.050,136.436 L153.669,174.036 L175.123,152.550 L136.505,114.950 L175.123,76.275 L153.669,53.715 L115.050,93.464 L77.505,55.863 Z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    float: right;
+    height: 1.3rem;
+    width: 1.3rem;
+    border-radius: 50%;
+    transition: all 70ms linear;
+    position: relative;
+    top: 0px;
+}
+.closeIcon:hover {
+    transform: scale(1.05);
+}
+.closeIcon:active {
+    transform: scale(0.95);
+    background-color: #f00;
+}
+.icon {
+    display: inline-block;
+    height: 1.3rem;
+    width: 1.3rem;
+    border-radius: 50%;
+    padding: 4px;
+    margin: 4px;
+    border: 3px solid #900;
+    outline: 2px solid #fff;
+    margin-right: 0.5rem;
+}
+.titlebar .icon {
+    float: left;
+}
+.titlebar {
+    background: #03c;
+    color: #fff;
+    font-size: 1.4rem;
+    padding: 0.5rem;
 }

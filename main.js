@@ -324,15 +324,21 @@ const $$ = str => document.querySelectorAll(str);
         exportData: function() {
             let data = JSON.stringify(app.data.invoices);
             let el = document.createElement('a');
+            let now = app.makeSerial();
             el.setAttribute('href', 'data:application/json;charset=utf-8,'+encodeURIComponent(data));
-            el.setAttribute("download", "invoices.json");
+            el.setAttribute("download", `invoices-${now}.json`);
             el.style.display = "none";
 
             document.body.appendChild(el);
             el.click();
             document.body.removeChild(el);
 
-        }
+        },
+        showDialog: str => $(`#${str}Dialog`)?.showModal(),
+        showHelp: () => {
+            $("#helpDialog").showModal(); 
+        },
+        closeDialog: (who) => $(`#${who}Dialog`)?.close(),
     }
     window.app = app;
     app.init();
