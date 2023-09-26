@@ -117,7 +117,7 @@ const $$ = str => document.querySelectorAll(str);
                 row.className = "lineitem";
                 row.addEventListener("click", app.deleteItem);
 
-                let html = `<td>${item.date}</td><td>${item.service}</td><td>${item.qty}</td><td>$${item.rate}/hr</td><td>${item.desc}</td><td style='text-align:right;'>$${item.total}</td><td></td>`;
+                let html = `<td>${item.date}</td><td>${item.service}</td><td>${item.qty}</td><td>$${item.rate}/hr</td><td>${item.desc}</td><td style='text-align:right;'>$${item.total}</td><td><div class='rowEditWrap'><button class='smBtn editBtn'></button><button class='smBtn rmBtn'></button></div></td>`;
                 row.innerHTML = html;
                 tbl.insertBefore(row, $("#lastrow"));
             });
@@ -192,7 +192,7 @@ const $$ = str => document.querySelectorAll(str);
             
             let row = document.createElement("tr");
             row.className = "lineitem";
-            let html = `<td>${lineitem.date}</td><td>${lineitem.service}</td><td>${lineitem.qty}</td><td>$${lineitem.rate}/hr</td><td>${lineitem.desc}</td><td style="text-align:right;">$${lineitem.total}</td><td></td>`;
+            let html = `<td>${lineitem.date}</td><td>${lineitem.service}</td><td>${lineitem.qty}</td><td>$${lineitem.rate}/hr</td><td>${lineitem.desc}</td><td style="text-align:right;">$${lineitem.total}</td><td></td><td><button class='smBtn editBtn'></button><button class='smBtn rmBtn'></button></td>`;
             row.innerHTML = html;
             
             $(".lineitems tbody").insertBefore(row, $("#lastrow"));
