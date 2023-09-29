@@ -517,3 +517,12 @@ background-size: contain;
     font-size: 1.4rem;
     padding: 0.5rem;
 }
+#editrow input {
+    background-color: #ffc;
+    font-size: 12px;
+    width:100%;
+}
+#newrow input {
+    font-size: 12px;
+    background-color: #ffc;
+}

@@ -115,9 +115,16 @@ const $$ = str => document.querySelectorAll(str);
                 let row = document.createElement("tr");
                 row.id = `idx_${idx}`;
                 row.className = "lineitem";
-                row.addEventListener("click", app.deleteItem);
+                //row.addEventListener("click", app.deleteItem);
 
-                let html = `<td>${item.date}</td><td>${item.service}</td><td>${item.qty}</td><td>$${item.rate}/hr</td><td>${item.desc}</td><td style='text-align:right;'>$${item.total}</td><td><div class='rowEditWrap'><button class='smBtn editBtn'></button><button class='smBtn rmBtn'></button></div></td>`;
+                let html = `
+                        <td>${item.date}</td>
+                        <td>${item.service}</td>
+                        <td>${item.qty}</td>
+                        <td>$${item.rate}/hr</td>
+                        <td>${item.desc}</td>
+                        <td style='text-align:right;'>$${item.total}</td>
+                        <td><div class='rowEditWrap'><button class='smBtn editBtn' onclick='app.editRow(event)'></button><button class='smBtn rmBtn'></button></div></td>`;
                 row.innerHTML = html;
                 tbl.insertBefore(row, $("#lastrow"));
             });
@@ -165,6 +172,49 @@ const $$ = str => document.querySelectorAll(str);
 
             app.makeInvoiceList();
         },
+        updateRow: function() {
+            app.state.rowedit = 0;
+            let lineitem = {};
+            let date = $("#item-date").value;
+            let parts = date.split(/\-/);
+            let yr = parts[0];
+            let mo = parts[1].replace(/^0/, '');
+            let day = parts[2].replace(/^0/, '');
+            
+            lineitem.date = mo + '/' + day + '/' + yr;
+
+            let fields = ['service', 'qty', 'rate', 'desc'];
+            for (let i=0; i<fields.length; i++) {
+                let field = fields[i];
+                lineitem[field] = $(`#item-${field}`).value;
+            }
+            lineitem["total"] = lineitem.qty * lineitem.rate;
+
+            if (app.state.debug) {
+                console.dir(lineitem);
+            }
+            app.data.current.lineitems.push(lineitem);
+            
+            // $("#editrow").parentNode.removeChild($("#editrow"));
+            
+            let row = document.createElement("tr");
+            row.className = "lineitem";
+            let html = `<td>${lineitem.date}</td>
+                        <td>${lineitem.service}</td>
+                        <td>${lineitem.qty}</td>
+                        <td>$${lineitem.rate}/hr</td>
+                        <td>${lineitem.desc}</td>
+                        <td style="text-align:right;">$${lineitem.total}</td>
+                        <td></td>
+                        <td><div class='rowEditWrap'><button class='smBtn editBtn' onclick='app.editRow(event)'></button><button class='smBtn rmBtn'></button></div></td>`;
+            row.innerHTML = html;
+            
+            //$(".lineitems tbody").insertBefore(row, $("#lastrow"));
+            $("#editrow").replaceWith(row);
+            app.updateTotals();
+
+            //$(".lineitems tbody").appendChild(row);
+        },
         saveRow: function() {
             app.state.rowedit = 0;
             let lineitem = {};
@@ -188,11 +238,18 @@ const $$ = str => document.querySelectorAll(str);
             }
             app.data.current.lineitems.push(lineitem);
             
-            $("#newrow").parentNode.removeChild($("#newrow"));
+            $("#editrow").parentNode.removeChild($("#editrow"));
             
             let row = document.createElement("tr");
             row.className = "lineitem";
-            let html = `<td>${lineitem.date}</td><td>${lineitem.service}</td><td>${lineitem.qty}</td><td>$${lineitem.rate}/hr</td><td>${lineitem.desc}</td><td style="text-align:right;">$${lineitem.total}</td><td></td><td><button class='smBtn editBtn'></button><button class='smBtn rmBtn'></button></td>`;
+            let html = `<td>${lineitem.date}</td>
+                        <td>${lineitem.service}</td>
+                        <td>${lineitem.qty}</td>
+                        <td>$${lineitem.rate}/hr</td>
+                        <td>${lineitem.desc}</td>
+                        <td style="text-align:right;">$${lineitem.total}</td>
+                        <td></td>
+                        <td><button class='smBtn editBtn' onclick='app.editRow(event)'></button><button class='smBtn rmBtn'></button></td>`;
             row.innerHTML = html;
             
             $(".lineitems tbody").insertBefore(row, $("#lastrow"));
@@ -200,11 +257,61 @@ const $$ = str => document.querySelectorAll(str);
 
             //$(".lineitems tbody").appendChild(row);
         },
+        cancelEdit: function() {
+            if (app.state.editOriginal) {
+                let el = document.createElement("tr");
+                el.id = "idx_" + app.state.editIndex;
+                el.className = "lineitem";
+                el.innerHTML = app.state.editOriginal;
+
+                $("#editrow").replaceWith(el);
+                app.state.rowedit = 0;
+            }
+        },
+        editRow: function(e) {
+            console.log("editRow");
+            console.dir(e);
+            let el = e.target;
+            while (el.tagName != "TR") {
+                el = el.parentElement;
+            }
+            let idx = parseInt(el.id.replace(/\D/g, ''));
+            let row = app.data.lineitems[idx];
+            app.state.editIndex = idx;
+            let dparts = row.date.split(/\//);
+            if (dparts[0] < 10) dparts[0] = '0' + dparts[0];
+            if (dparts[1] < 10) dparts[1] = '0' + dparts[1];
+            let date = dparts[2] + '-' + dparts[0] + '-' + dparts[1];
+            
+                
+            let newrow = document.createElement("tr");
+            newrow.id = "editrow";
+            newrow.className = "lineitem";
+            newrow.innerHTML = `
+                <td><input type="date" id="item-date" name="item-date" value="${date}" style="width:7rem;"></td>
+				<td><input type='text' id='item-service' value="${row.service}" placeholder='Service Rendered'></td>
+				<td><input type='text' id='item-qty' value="${row.qty}" placeholder='8' size='2' style='text-align:center;'></td>
+				<td style='white-space:nowrap;'>$<input type='text' value="${row.rate}" id='item-rate' placeholder='75' size='3' style='text-align:center;'>/hr</td>
+				<td><input type='text' id='item-desc' placeholder='Service description' value="${row.desc}" size='25'></td>
+				<td style='text-align:right;' id='item-subtotal'>$${row.total}</td>
+				<td style='white-space: nowrap;'><button onclick="app.updateRow(event)"><i class="fa-solid fa-floppy-disk"></i></button><button onclick="app.cancelEdit(event)"><i class="fa-solid fa-ban"></i></button></td>`;
+            app.state.editOriginal = el.innerHTML;
+            el.replaceWith(newrow);
+            //$(".lineitems tbody").insertBefore(newrow, $("#lastrow"));
+            app.state.rowedit = 1;
+        },
         addRow: function() {
             let newrow = document.createElement("tr");
             newrow.id = "newrow";
             newrow.className = "lineitem";
-            newrow.innerHTML = `<td><input type="date" id="item-date" name="item-date" style="width:7rem;"></td><td><input type='text' id='item-service' placeholder='Service Rendered'></td><td><input type='text' id='item-qty' placeholder='8' size='2' style='text-align:center;'></td><td style='white-space:nowrap;'>$<input type='text' id='item-rate' placeholder='75' size='3' style='text-align:center;'>/hr</td><td><input type='text' id='item-desc' placeholder='Service description' size='25'></td><td id='item-subtotal'></td><td><button onclick="app.saveRow()">save</button></td>`;
+            newrow.innerHTML = `
+                <td><input type="date" id="item-date" name="item-date" style="width:7rem;"></td>
+				<td><input type='text' id='item-service' placeholder='Service Rendered'></td>
+				<td><input type='text' id='item-qty' placeholder='8' size='2' style='text-align:center;'></td>
+				<td style='white-space:nowrap;'>$<input type='text' id='item-rate' placeholder='75' size='3' style='text-align:center;'>/hr</td>
+				<td><input type='text' id='item-desc' placeholder='Service description' size='25'></td>
+				<td id='item-subtotal'></td>
+				<td><button onclick="app.saveRow()">save</button></td>`;
             $(".lineitems tbody").insertBefore(newrow, $("#lastrow"));
             app.state.rowedit = 1;
         },
