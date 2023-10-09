@@ -519,10 +519,18 @@ background-size: contain;
 }
 #editrow input {
     background-color: #ffc;
-    font-size: 12px;
+    font-size: 14px;
     width:100%;
 }
 #newrow input {
-    font-size: 12px;
+    font-size: 14px;
     background-color: #ffc;
 }
+input#item-date {
+    width: 7rem;
+}
+input#item-rate, input#item-qty {
+    text-align: center;
+}
+.nowrap { white-space: nowrap; }
+
