@@ -364,8 +364,6 @@ button.btn {
 }
 
 button:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(0px 2px 0px #0009) brightness(2);
 }
 
 button:active {
@@ -526,3 +524,23 @@ background-size: contain;
     font-size: 12px;
     background-color: #ffc;
 }
+.toolbar {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+.btngroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #eee;
+    text-shadow: 1px 1px 0px #0006;
+    font-size: 9px;
+    border-radius: 6px;
+}
+.btngroup:hover {
+    background-color: #666;
+}
+

@@ -16,14 +16,14 @@
 <body>
 <nav>
     <div class='toolbar'>
-        <button id='importBtn' class='btn' title="Immport Data" onclick="return app.importData()"></button>
-        <button id='exportBtn' class='btn' title="Export Data" onclick="return app.exportData()"></button>
-        <button id='printBtn' class='btn' title="Print Invoice" onclick="return app.printInvoice()"></button>
-        <button id='archiveBtn' class='btn' style="display:none" title="Archive Invoice" onclick="return app.archiveInvoice()"></button>
-        <button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()"></button>
-        <button id='newBtn' class='btn' title="New Invoice" onclick="return app.newInvoice()"></button>
-        <button id='saveBtn' class='btn' title="Save Invoice" onclick="return app.saveInvoice()"></button>
-        <button id='helpBtn' class='btn' title="Help" onclick="return app.showHelp()"></button>
+        <span class='btngroup'><button id='importBtn' class='btn' title="Import Data" onclick="return app.importData()"></button>Import</span>
+        <span class='btngroup'><button id='exportBtn' class='btn' title="Export Data" onclick="return app.exportData()"></button>Export</span>
+        <span class='btngroup'><button id='printBtn' class='btn' title="Print Invoice" onclick="return app.printInvoice()"></button>Print</span>
+        <span class='btngroup' style='display:none'><button id='archiveBtn' class='btn' title="Archive Invoice" onclick="return app.archiveInvoice()"></button>Archive</span>
+        <span class='btngroup'><button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()"></button>Del</span>
+        <span class='btngroup'><button id='newBtn' class='btn' title="New Invoice" onclick="return app.newInvoice()"></button>New</span>
+        <span class='btngroup'><button id='saveBtn' class='btn' title="Save Invoice" onclick="return app.saveInvoice()"></button>Save</span>
+        <span class='btngroup'><button id='helpBtn' class='btn' title="Help" onclick="return app.showHelp()"></button>Help</span>
     </div>
     <select id="invoices" name="invoices"></select>
 </nav>

@@ -5,8 +5,7 @@ const $$ = str => document.querySelectorAll(str);
     const app = {
         data: {
             id: 0,
-            lineitems: [
-                { 
+            lineitems: [{
                     date: "7/15/2023",
                     service: "Software Development",
                     qty: 4,
@@ -14,7 +13,7 @@ const $$ = str => document.querySelectorAll(str);
                     desc: "Performed work on invoicing system",
                     total: 300
                 },
-                { 
+                {
                     date: "7/20/2023",
                     service: "System Administration",
                     qty: 2,
@@ -22,7 +21,7 @@ const $$ = str => document.querySelectorAll(str);
                     desc: "Security updates",
                     total: 150
                 },
-                { 
+                {
                     date: "7/25/2023",
                     service: "System Development",
                     qty: 8,
@@ -35,7 +34,7 @@ const $$ = str => document.querySelectorAll(str);
         },
         state: {
             loaded: false,
-            rowedit: 0,
+            rowedit: "",
             debug: 0
         },
         init: function() {
@@ -48,10 +47,26 @@ const $$ = str => document.querySelectorAll(str);
         doKey: function(e) {
             console.log("Key pressed");
             console.dir(e);
-            
-            if ((app.state.rowedit) && (e.keyCode == 27)) {
-                $("#newrow").parentNode.removeChild($("#newrow"));
-                app.state.rowedit = 0;
+
+            if (app.state.rowedit) {
+                if (e.keyCode == 27) {
+                    if ((app.state.rowedit === "editrow") && (app.state.editOriginal)) {
+                        let row = document.createElement("tr");
+                        row.id = app.state.editIdx;
+                        row.className = "lineitem";
+                        row.innerHTML = app.state.editOriginal;
+                        $("#editrow").replaceWith(row);
+
+                        app.state.editOriginal = '';
+                        app.state.editIdx = '';
+                        app.state.rowedit = '';
+                    } else if (app.state.rowedit == "newrow") {
+                        $(`#newrow`).parentNode.removeChild($("#newrow"));
+                        app.state.rowedit = '';
+                    }
+                } else if (e.keyCode == 13) {
+                    app.saveRow(e);             
+                }
             }
         },
         loadInvoice: function(e) {
@@ -67,7 +82,7 @@ const $$ = str => document.querySelectorAll(str);
 
         },
         getData: function(callback) {
-            fetch("invoices.json").then(r=>r.json()).then(data=>{
+            fetch("invoices.json").then(r => r.json()).then(data => {
                 app.data.invoices = data;
                 app.data.current = app.data.invoices[0];
                 if (app.state.debug) {
@@ -82,7 +97,7 @@ const $$ = str => document.querySelectorAll(str);
         makeInvoiceList: function() {
             data = app.data.invoices;
             $("#invoices").innerHTML = "";
-            data.forEach((item,idx)=>{
+            data.forEach((item, idx) => {
                 let opt = document.createElement('option');
                 opt.value = idx;
                 opt.text = item.date + ' - ' + item.company + ' - $' + item.due;
@@ -96,7 +111,9 @@ const $$ = str => document.querySelectorAll(str);
         printInvoice: function() {
             $("body").classList.add("print");
             let el = $("main");
-            html2pdf(el, { filename: app.data.current.id + '.pdf' });
+            html2pdf(el, {
+                filename: app.data.current.id + '.pdf'
+            });
         },
         deleteItem: function(e) {
             if (app.state.debug) {
@@ -109,14 +126,10 @@ const $$ = str => document.querySelectorAll(str);
                 app.data.current.lineitems.splice(id, 1);
             }
         },
-        buildInvoice: function() {
-            let tbl = $(".lineitems tbody");
-            app.data.current.lineitems.forEach((item,idx)=>{
-                let row = document.createElement("tr");
-                row.id = `idx_${idx}`;
+        makeRow: function(item) {
+            let row = document.createElement("tr");
+            if (item) {
                 row.className = "lineitem";
-                //row.addEventListener("click", app.deleteItem);
-
                 let html = `
                         <td>${item.date}</td>
                         <td>${item.service}</td>
@@ -126,9 +139,17 @@ const $$ = str => document.querySelectorAll(str);
                         <td style='text-align:right;'>$${item.total}</td>
                         <td><div class='rowEditWrap'><button class='smBtn editBtn' onclick='app.editRow(event)'></button><button class='smBtn rmBtn'></button></div></td>`;
                 row.innerHTML = html;
+            }
+            return row;
+        },
+        buildInvoice: function() {
+            let tbl = $(".lineitems tbody");
+            app.data.current.lineitems.forEach((item, idx) => {
+                let row = app.makeRow(item);
+                row.id = `idx_${idx}`;
                 tbl.insertBefore(row, $("#lastrow"));
             });
-            //$("#to").innerHTML = `<label>${app.data.current.company}</label><br>${app.data.current.address}<br>${app.data.current.citystate}<p>${app.data.current.phone} | ${app.data.current.email}</p>`;
+            
             $("#company").value = app.data.current.company;
             $("#email").value = app.data.current.email;
             $("#phone").value = app.data.current.phone;
@@ -143,27 +164,27 @@ const $$ = str => document.querySelectorAll(str);
             if (app.state.debug) {
                 console.log("reseting invoice");
             }
-            $$(".lineitem").forEach(item=>{ 
+            $$(".lineitem").forEach(item => {
                 if (app.state.debug) {
-                    console.dir(item); 
+                    console.dir(item);
                 }
-                item.parentNode.removeChild(item) 
+                item.parentNode.removeChild(item)
             });
 
         },
         updateTotals: function() {
             let subtot = 0;
-            app.data.current.lineitems.forEach(item=>{
+            app.data.current.lineitems.forEach(item => {
                 subtot += item.total;
             });
-            
+
             $("#subtotal").innerHTML = '$' + subtot.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + '.00';
             let tax = $("#tax").innerHTML.replace(/\D/g, '') || 0;
             $("#tax").innerHTML = "$0.00";
             let tot = parseInt(subtot) + parseInt(tax);
             $("#totaldue").innerHTML = '$' + tot.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + '.00';
             app.data.current.total = tot;
-            
+
             if (!app.data.current.paid) {
                 app.data.current.paid = 0;
             }
@@ -172,19 +193,22 @@ const $$ = str => document.querySelectorAll(str);
 
             app.makeInvoiceList();
         },
-        updateRow: function() {
-            app.state.rowedit = 0;
+        saveRow: function(evt) {
+            if (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+            }
             let lineitem = {};
             let date = $("#item-date").value;
             let parts = date.split(/\-/);
             let yr = parts[0];
             let mo = parts[1].replace(/^0/, '');
             let day = parts[2].replace(/^0/, '');
-            
+
             lineitem.date = mo + '/' + day + '/' + yr;
 
             let fields = ['service', 'qty', 'rate', 'desc'];
-            for (let i=0; i<fields.length; i++) {
+            for (let i = 0; i < fields.length; i++) {
                 let field = fields[i];
                 lineitem[field] = $(`#item-${field}`).value;
             }
@@ -194,68 +218,14 @@ const $$ = str => document.querySelectorAll(str);
                 console.dir(lineitem);
             }
             app.data.current.lineitems.push(lineitem);
+
+            let row = app.makeRow(lineitem);
+            if (app.state.rowedit === "newrow") row.id = `idx_${app.data.current.lineitems.length}`;
+
+            $(`#${app.state.rowedit}`).replaceWith(row);
             
-            // $("#editrow").parentNode.removeChild($("#editrow"));
-            
-            let row = document.createElement("tr");
-            row.className = "lineitem";
-            let html = `<td>${lineitem.date}</td>
-                        <td>${lineitem.service}</td>
-                        <td>${lineitem.qty}</td>
-                        <td>$${lineitem.rate}/hr</td>
-                        <td>${lineitem.desc}</td>
-                        <td style="text-align:right;">$${lineitem.total}</td>
-                        <td></td>
-                        <td><div class='rowEditWrap'><button class='smBtn editBtn' onclick='app.editRow(event)'></button><button class='smBtn rmBtn'></button></div></td>`;
-            row.innerHTML = html;
-            
-            //$(".lineitems tbody").insertBefore(row, $("#lastrow"));
-            $("#editrow").replaceWith(row);
+            app.state.rowedit = '';
             app.updateTotals();
-
-            //$(".lineitems tbody").appendChild(row);
-        },
-        saveRow: function() {
-            app.state.rowedit = 0;
-            let lineitem = {};
-            let date = $("#item-date").value;
-            let parts = date.split(/\-/);
-            let yr = parts[0];
-            let mo = parts[1].replace(/^0/, '');
-            let day = parts[2].replace(/^0/, '');
-            
-            lineitem.date = mo + '/' + day + '/' + yr;
-
-            let fields = ['service', 'qty', 'rate', 'desc'];
-            for (let i=0; i<fields.length; i++) {
-                let field = fields[i];
-                lineitem[field] = $(`#item-${field}`).value;
-            }
-            lineitem["total"] = lineitem.qty * lineitem.rate;
-
-            if (app.state.debug) {
-                console.dir(lineitem);
-            }
-            app.data.current.lineitems.push(lineitem);
-            
-            $("#editrow").parentNode.removeChild($("#editrow"));
-            
-            let row = document.createElement("tr");
-            row.className = "lineitem";
-            let html = `<td>${lineitem.date}</td>
-                        <td>${lineitem.service}</td>
-                        <td>${lineitem.qty}</td>
-                        <td>$${lineitem.rate}/hr</td>
-                        <td>${lineitem.desc}</td>
-                        <td style="text-align:right;">$${lineitem.total}</td>
-                        <td></td>
-                        <td><button class='smBtn editBtn' onclick='app.editRow(event)'></button><button class='smBtn rmBtn'></button></td>`;
-            row.innerHTML = html;
-            
-            $(".lineitems tbody").insertBefore(row, $("#lastrow"));
-            app.updateTotals();
-
-            //$(".lineitems tbody").appendChild(row);
         },
         cancelEdit: function() {
             if (app.state.editOriginal) {
@@ -265,7 +235,7 @@ const $$ = str => document.querySelectorAll(str);
                 el.innerHTML = app.state.editOriginal;
 
                 $("#editrow").replaceWith(el);
-                app.state.rowedit = 0;
+                app.state.rowedit = '';
             }
         },
         editRow: function(e) {
@@ -282,8 +252,8 @@ const $$ = str => document.querySelectorAll(str);
             if (dparts[0] < 10) dparts[0] = '0' + dparts[0];
             if (dparts[1] < 10) dparts[1] = '0' + dparts[1];
             let date = dparts[2] + '-' + dparts[0] + '-' + dparts[1];
-            
-                
+
+
             let newrow = document.createElement("tr");
             newrow.id = "editrow";
             newrow.className = "lineitem";
@@ -294,11 +264,12 @@ const $$ = str => document.querySelectorAll(str);
 				<td style='white-space:nowrap;'>$<input type='text' value="${row.rate}" id='item-rate' placeholder='75' size='3' style='text-align:center;'>/hr</td>
 				<td><input type='text' id='item-desc' placeholder='Service description' value="${row.desc}" size='25'></td>
 				<td style='text-align:right;' id='item-subtotal'>$${row.total}</td>
-				<td style='white-space: nowrap;'><button onclick="app.updateRow(event)"><i class="fa-solid fa-floppy-disk"></i></button><button onclick="app.cancelEdit(event)"><i class="fa-solid fa-ban"></i></button></td>`;
+				<td style='white-space: nowrap;'><button onclick="return app.saveRow(event)"><i class="fa-solid fa-floppy-disk"></i></button><button onclick="app.cancelEdit(event)"><i class="fa-solid fa-ban"></i></button></td>`;
             app.state.editOriginal = el.innerHTML;
+            app.state.editIdx = el.id;
+
             el.replaceWith(newrow);
-            //$(".lineitems tbody").insertBefore(newrow, $("#lastrow"));
-            app.state.rowedit = 1;
+            app.state.rowedit = "editrow";
         },
         addRow: function() {
             let newrow = document.createElement("tr");
@@ -311,12 +282,13 @@ const $$ = str => document.querySelectorAll(str);
 				<td style='white-space:nowrap;'>$<input type='text' id='item-rate' placeholder='75' size='3' style='text-align:center;'>/hr</td>
 				<td><input type='text' id='item-desc' placeholder='Service description' size='25'></td>
 				<td id='item-subtotal'></td>
-				<td><button onclick="app.saveRow()">save</button></td>`;
+				<td><button onclick="return app.saveRow(event)"><i class="fa-solid fa-floppy-disk"></i></button></td>`;
             $(".lineitems tbody").insertBefore(newrow, $("#lastrow"));
-            app.state.rowedit = 1;
+            app.state.rowedit = "newrow";
+            setTimeout(function() { $("#item-date").showPicker(); $("#item-date").focus(); }, 10);
         },
         fetch: function(url, callback) {
-            fetch(url).then(response=>response.json()).then(data=>{
+            fetch(url).then(response => response.json()).then(data => {
                 app.data = data;
                 app.state.loaded = true;
                 if (callback && typeof(callback) === "function") {
@@ -330,7 +302,7 @@ const $$ = str => document.querySelectorAll(str);
         },
         loadData: function() {
             let json = localStorage.getItem('invoices');
-            
+
             if (json) {
                 let data = JSON.parse(json);
                 app.data.invoices = data;
@@ -355,7 +327,7 @@ const $$ = str => document.querySelectorAll(str);
                 });
             }
             out += "</tr></thead><tbody>";
-            data.forEach(item=>{
+            data.forEach(item => {
                 out += `<tr>`;
                 keys.forEach(key => {
                     out += `<td>${item[i]}</td>`;
@@ -369,7 +341,7 @@ const $$ = str => document.querySelectorAll(str);
             }
             return out;
         },
-        makeSerial:  function() {
+        makeSerial: function() {
             let serial = "";
             let now = new Date();
 
@@ -382,7 +354,7 @@ const $$ = str => document.querySelectorAll(str);
             if (day < 10) day = '0' + day;
             if (hr < 10) hr = '0' + hr;
 
-            serial = yr + '' + mo + '' + day + '' + app.data.invoices.length ;
+            serial = yr + '' + mo + '' + day + '' + app.data.invoices.length;
             return serial;
         },
         makeDate: function() {
@@ -390,7 +362,7 @@ const $$ = str => document.querySelectorAll(str);
             return now.toJSON().substring(0, 10);
         },
         newInvoice: function() {
-            $$(".lineitem").forEach(item=>item.parentNode.removeChild(item));
+            $$(".lineitem").forEach(item => item.parentNode.removeChild(item));
 
             let id = app.makeSerial();
             let newobj = {
@@ -404,17 +376,16 @@ const $$ = str => document.querySelectorAll(str);
                 "email": "email@example.com",
                 "total": 0,
                 "due": 0,
-                "lineitems": [
-                ]
+                "lineitems": []
             };
             app.data.invoices.push(newobj);
             app.data.current = newobj;
             app.makeInvoiceList();
             app.buildInvoice();
-        }, 
+        },
         saveInvoice: function() {
-           app.updateTotals();
-            app.storeData(); 
+            app.updateTotals();
+            app.storeData();
         },
         removeInvoice: function() {
             if (confirm(`Are you sure you want to permenantly \ndelete Invoice ${app.data.current.id} [${app.data.id}]?`)) {
@@ -432,7 +403,7 @@ const $$ = str => document.querySelectorAll(str);
             let data = JSON.stringify(app.data.invoices);
             let el = document.createElement('a');
             let now = app.makeSerial();
-            el.setAttribute('href', 'data:application/json;charset=utf-8,'+encodeURIComponent(data));
+            el.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(data));
             el.setAttribute("download", `invoices-${now}.json`);
             el.style.display = "none";
 
@@ -443,11 +414,10 @@ const $$ = str => document.querySelectorAll(str);
         },
         showDialog: str => $(`#${str}Dialog`)?.showModal(),
         showHelp: () => {
-            $("#helpDialog").showModal(); 
+            $("#helpDialog").showModal();
         },
         closeDialog: (who) => $(`#${who}Dialog`)?.close(),
     }
     window.app = app;
     app.init();
 })();
-
