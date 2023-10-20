@@ -45,9 +45,6 @@ const $$ = str => document.querySelectorAll(str);
             app.state.loaded = true;
         },
         doKey: function(e) {
-            console.log("Key pressed");
-            console.dir(e);
-
             if (app.state.rowedit) {
                 if (e.keyCode == 27) {
                     if ((app.state.rowedit === "editrow") && (app.state.editOriginal)) {
