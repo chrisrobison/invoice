@@ -196,18 +196,21 @@ const $$ = str => document.querySelectorAll(str);
                 evt.preventDefault();
             }
             let lineitem = {};
-            let date = $("#item-date").value;
-            let parts = date.split(/\-/);
-            let yr = parts[0];
-            let mo = parts[1].replace(/^0/, '');
-            let day = parts[2].replace(/^0/, '');
+            let mytime = $("#item-date").valueAsNumber;
+            let date = new Date(mytime);
+
+            let yr = date.getFullYear();
+            let mo = date.getMonth() + 1;
+            let day = date.getDate();
+
+            if (day < 10) day = '0' + day;
+            if (mo < 10) mo = '0' + mo;
 
             lineitem.date = mo + '/' + day + '/' + yr;
 
             let fields = ['service', 'qty', 'rate', 'desc'];
             for (let i = 0; i < fields.length; i++) {
-                let field = fields[i];
-                lineitem[field] = $(`#item-${field}`).value;
+                lineitem[fields[i]] = $(`#item-${fields[i]}`).value;
             }
             lineitem["total"] = lineitem.qty * lineitem.rate;
 
@@ -220,7 +223,7 @@ const $$ = str => document.querySelectorAll(str);
             if (app.state.rowedit === "newrow") row.id = `idx_${app.data.current.lineitems.length}`;
 
             $(`#${app.state.rowedit}`).replaceWith(row);
-            
+
             app.state.rowedit = '';
             app.updateTotals();
         },
@@ -273,16 +276,20 @@ const $$ = str => document.querySelectorAll(str);
             newrow.id = "newrow";
             newrow.className = "lineitem";
             newrow.innerHTML = `
-                <td><input type="date" id="item-date" name="item-date" style="width:7rem;"></td>
+                <td><input type="date" id="item-date" name="item-date"></td>
 				<td><input type='text' id='item-service' placeholder='Service Rendered'></td>
-				<td><input type='text' id='item-qty' placeholder='8' size='2' style='text-align:center;'></td>
-				<td style='white-space:nowrap;'>$<input type='text' id='item-rate' placeholder='75' size='3' style='text-align:center;'>/hr</td>
+				<td><input type='text' id='item-qty' placeholder='8' size='2'></td>
+				<td class='nowrap'>$<input type='text' id='item-rate' placeholder='75' size='3'>/hr</td>
 				<td><input type='text' id='item-desc' placeholder='Service description' size='25'></td>
 				<td id='item-subtotal'></td>
 				<td><button onclick="return app.saveRow(event)"><i class="fa-solid fa-floppy-disk"></i></button></td>`;
             $(".lineitems tbody").insertBefore(newrow, $("#lastrow"));
             app.state.rowedit = "newrow";
-            setTimeout(function() { $("#item-date").showPicker(); $("#item-date").focus(); }, 10);
+            
+            setTimeout(function() {
+                $("#item-date").showPicker();
+                $("#item-date").focus();
+            }, 10);
         },
         fetch: function(url, callback) {
             fetch(url).then(response => response.json()).then(data => {
@@ -409,11 +416,11 @@ const $$ = str => document.querySelectorAll(str);
             document.body.removeChild(el);
 
         },
-        showDialog: str => $(`#${str}Dialog`)?.showModal(),
+        showDialog: str => $(`#${str}Dialog`) ? .showModal(),
         showHelp: () => {
             $("#helpDialog").showModal();
         },
-        closeDialog: (who) => $(`#${who}Dialog`)?.close(),
+        closeDialog: (who) => $(`#${who}Dialog`) ? .close(),
     }
     window.app = app;
     app.init();
