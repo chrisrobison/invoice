@@ -301,8 +301,13 @@ dialog#helpDialog h2 {
 }
 
 dialog#helpDialog form {
+    padding: 0;
+}
+
+dialog#helpDialog .helpBody {
     padding: 1rem;
 }
+
 .titlebar {
     padding: 0.5rem 0.25rem;
 }
@@ -550,4 +555,49 @@ input#item-rate, input#item-qty {
     text-align: center;
 }
 .nowrap { white-space: nowrap; }
+
+#helpDialog ul.tabbar {
+    display: flex;
+    border-bottom: 1px solid #0006;
+    height: 2.1rem;
+    padding-left: 1rem;
+    background: #888;
+}
+#helpDialog .tabbar li {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    background: #ccc;
+    position: relative;
+    height: 1.5rem;
+    top: 0.6rem;
+    min-width: 5rem;
+    text-align: center;
+    border-left: 1px solid #0006;
+    border-top: 1px solid #0006;
+    border-radius: 6px;
+    border-right: 1px solid #0006;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #0006;
+    font-size: 0.8rem;
+}
+
+#helpDialog p {
+    margin: 0.5rem;
+}
+
+#helpDialog ul.tabbar li.active {
+    background: #eee;
+    position: relative;
+    z-index: 9999;
+    height: 2.1rem;
+    top: 2px;
+    font-size: 1rem;
+    height: 2rem;
+    top: 5px;
+    border-bottom: 0px;
+}
 

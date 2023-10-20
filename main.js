@@ -416,11 +416,11 @@ const $$ = str => document.querySelectorAll(str);
             document.body.removeChild(el);
 
         },
-        showDialog: str => $(`#${str}Dialog`) ? .showModal(),
+        showDialog: str => $(`#${str}Dialog`)?.showModal(),
         showHelp: () => {
             $("#helpDialog").showModal();
         },
-        closeDialog: (who) => $(`#${who}Dialog`) ? .close(),
+        closeDialog: (who) => $(`#${who}Dialog`)?.close(),
     }
     window.app = app;
     app.init();

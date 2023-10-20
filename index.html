@@ -39,11 +39,11 @@
     <div class="address">
         From:
         <blockquote>
-            <label>Christopher Robison</label><br>
-            621 Holloway Ave<br>
-            San Francisco, CA 94112<br>
-            <a href="tel:4158106991">(415) 810-6991</a><br>
-            <a href="mailto:cdr@cdr2.com">cdr@cdr2.com</a></p>
+            <label id="owner-name" contenteditable>Christopher Robison</label><br>
+            <span id="owner-address" contenteditable>621 Holloway Ave</span><br>
+            <span id="owner-city" contenteditable>San Francisco, CA 94112</span><br>
+            <a id="owner-phone" href="tel:4158106991" contenteditable>(415) 810-6991</a><br>
+            <a id="owner-email" href="mailto:cdr@cdr2.com" contenteditable>cdr@cdr2.com</a></p>
         </blockquote>
     </div>
     <div class="address" style="border-left: 1px solid #0004;">
@@ -90,15 +90,17 @@
     <div class="titlebar"><span class='icon helpIcon'></span> Help <a class="closeIcon" onclick="return app.closeDialog('help')"></a></div>
     <form>
         <ul class="tabbar">
-            <li>General</li>
+            <li class="active">General</li>
             <li>UI</li>
             <li>Data</li>
             <li>Settings</li>
         </ul>
+        <div class='helpBody'>
         <h2>Invoice Tool Help</h2>
         <p>Welcome to the <b>Invoice Tool</b>. This tool allows you to create simple ad-hoc invoices for print or export to PDF.  All data is stored locally in your browser; No accounts or signup required!  Totally self-contained without any external dependencies, the <b>Invoice Tool</b> Also works when offline.</p>
-        <button value="cancel" formmethod="dialog">Cancel</button>
-        <button value="default" id="confirmBtn">OK</button>
+        <button value="cancel" onclick="return app.closeDialog('help')" formmethod="dialog">Cancel</button>
+        <button value="default" id="confirmBtn" formmethod="dialog">OK</button>
+        </div>
     </form>
 </dialog>
 
