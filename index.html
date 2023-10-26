@@ -95,17 +95,42 @@
 <dialog id="helpDialog">
     <div class="titlebar"><span class='icon helpIcon'></span> Help <a class="closeIcon" onclick="return app.closeDialog('help')"></a></div>
     <form>
-        <ul class="tabbar">
-            <li class="active">General</li>
-            <li>UI</li>
-            <li>Data</li>
-            <li>Settings</li>
+        <ul class="tabbar" onclick="app.changeHelpTab(event)">
+            <li id='helpTab-General' class="active">General</li>
+            <li id='helpTab-UI'>UI</li>
+            <li id='helpTab-Data'>Data</li>
+            <li id='helpTab-Settings'>Settings</li>
         </ul>
-        <div class='helpBody'>
-        <h2>Invoice Tool Help</h2>
-        <p>Welcome to the <b>Invoice Tool</b>. This tool allows you to create simple ad-hoc invoices for print or export to PDF.  All data is stored locally in your browser; No accounts or signup required!  Totally self-contained without any external dependencies, the <b>Invoice Tool</b> Also works when offline.</p>
-        <button value="cancel" onclick="return app.closeDialog('help')" formmethod="dialog">Cancel</button>
-        <button value="default" id="confirmBtn" formmethod="dialog">OK</button>
+        <div class='helpBody viewing' id='helpBody-General'>
+            <h2>Invoice Tool Help</h2>
+            <p>Welcome to <em>your</em> <b>Invoice Tool</b>. You now have the ability to create simple, ad-hoc invoices for print or export to PDF.  All data is stored encrypted on your local machine so your data remains secure; No accounts or signup required!  Totally self-contained without any external dependencies (optional dom2pdf for PDF export), the <b>Invoice Tool</b> also works when offline.</p>
+        </div>
+        <div class='helpBody' id='helpBody-UI'>
+            <h2>Invoice Tool Help: UI</h2>
+            <p>
+                Toolbar at the top of the screen contains buttons for things you can do.<br>
+                List of invoices is in the select box below the toolbar.<br>
+                Neary all text (except for UI elements) are editable and will be saved for -THE CURRENT INVOICE ONLY-; See 'Settings' for changing global default information.
+
+                More details and pictures coming soon on everything you can do via the user interface.
+
+            </p>
+        </div>
+        <div class='helpBody' id='helpBody-Data'>
+            <h2>Invoice Tool Help: Data</h2>
+            <p>
+                No help here yet describing the data import and export json structure but there are plans to write this section soon.
+            </p>
+        </div>
+        <div class='helpBody' id='helpBody-Settings'>
+            <h2>Invoice Tool Help: Settings</h2>
+            <p>
+                No help here yet for updating global settings but there are plans to write this section soon.
+            </p>
+        </div>
+        <div style="text-align:right;padding:1rem;">
+                        <button value="cancel" onclick="return app.closeDialog('help')" formmethod="dialog">Cancel</button>
+                        <button value="default" id="confirmBtn" formmethod="dialog">OK</button>
         </div>
     </form>
 </dialog>

@@ -420,7 +420,16 @@ const $$ = str => document.querySelectorAll(str);
         showHelp: () => {
             $("#helpDialog").showModal();
         },
-        closeDialog: (who) => $(`#${who}Dialog`)?.close(),
+        closeDialog(who) { $(`#${who}Dialog`)?.close(); },
+        changeHelpTab(evt) {
+            let matches;
+            if (matches = evt.target.id.match(/helpTab\-(\w+)/)) {
+                $(".active").classList.remove("active");
+                $(".viewing").classList.remove("viewing");
+                $(`#helpBody-${matches[1]}`).classList.add("viewing");
+                evt.target.classList.add("active");
+            }
+        }
     }
     window.app = app;
     app.init();

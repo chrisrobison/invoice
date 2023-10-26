@@ -307,6 +307,12 @@ dialog#helpDialog form {
 
 dialog#helpDialog .helpBody {
     padding: 1rem;
+    display: none;
+}
+
+dialog#helpDialog .helpBody.viewing {
+    display: flex;
+    flex-direction: column;
 }
 
 .titlebar {
@@ -578,6 +584,7 @@ input#item-rate, input#item-qty {
     border-top: 1px solid #0006;
     border-radius: 6px;
     border-right: 1px solid #0006;
+    cursor: pointer;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     justify-content: center;
@@ -615,4 +622,19 @@ input#item-rate, input#item-qty {
     height: 2rem;
     margin-right: 1rem;
     padding-left: 1rem;
+}
+button {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: 1px solid #0003;
+    background: #333;
+    color: #eee;
+}
+#helpDialog button {
+    width: 6rem;
+    font-size: 1.5rem;
+    padding: 0.25rem;
+    border-radius: 1rem;
+    border: 1px solid #0003;
 }
