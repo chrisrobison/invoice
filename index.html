@@ -16,19 +16,25 @@
 <body>
 <nav>
     <div class='toolbar'>
-        <span class='btngroup'><button id='importBtn' class='btn' title="Import Data" onclick="return app.importData()"></button>Import</span>
-        <span class='btngroup'><button id='exportBtn' class='btn' title="Export Data" onclick="return app.exportData()"></button>Export</span>
-        <span class='btngroup'><button id='printBtn' class='btn' title="Print Invoice" onclick="return app.printInvoice()"></button>Print</span>
-        <span class='btngroup' style='display:none'><button id='archiveBtn' class='btn' title="Archive Invoice" onclick="return app.archiveInvoice()"></button>Archive</span>
-        <span class='btngroup'><button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()"></button>Del</span>
         <span class='btngroup'><button id='newBtn' class='btn' title="New Invoice" onclick="return app.newInvoice()"></button>New</span>
         <span class='btngroup'><button id='saveBtn' class='btn' title="Save Invoice" onclick="return app.saveInvoice()"></button>Save</span>
+        <span class='btngroup'><button id='printBtn' class='btn' title="Print Invoice" onclick="return app.printInvoice()"></button>Print</span>  
+        <span class="btnpad"></span>
+        <span class='btngroup'><button id='importBtn' class='btn' title="Import Data" onclick="return app.importData()"></button>Import</span>
+        <span class='btngroup'><button id='exportBtn' class='btn' title="Export Data" onclick="return app.exportData()"></button>Export</span>
+        <span class='btngroup' style='display:none'><button id='archiveBtn' class='btn' title="Archive Invoice" onclick="return app.archiveInvoice()"></button>Archive</span>
+        <span class="btnpad"></span>
+        <span class='btngroup'><button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()"></button>Del</span>
+        <span class="btnpad"></span>
         <span class='btngroup'><button id='helpBtn' class='btn' title="Help" onclick="return app.showHelp()"></button>Help</span>
+        <span class="btnpad"></span>
     </div>
-    <select id="invoices" name="invoices"></select>
+    <div style="background-color:#333;display:flex;align-items:center;flex-direction:row;">
+        <label style="padding:0 1rem;font-size:1.5rem;font-weight:bold;color:#aaa;" for="invoices"> Invoices </label> <select id="invoices" name="invoices"></select>
+    </div>
 </nav>
 <main>
-<h1>Invoice from Christopher Robison</h1>
+<h1 id="title" contenteditable>Invoice from Christopher Robison</h1>
 <div class="prehead">
     <div class="info">Date: <input type="date" id="date" name="date">
         <!--span id="month" contenteditable>7</span>/<span id="day" contenteditable>31</span>/<span id="year" contenteditable>2023</span-->
@@ -52,7 +58,7 @@
             <label><i class="fas fa-building" style="color:#919191;"></i></label> <input type="text" id="company" placeholder="Company Name" value="" onchange="app.data.current.company=this.value" style="font-size:1.1rem;font-weight:400;"><br>
             <label><i class="fas fa-location-dot" style="color:#919191;"></i></label>  <input type="text" id="address" placeholder="Address" onchange="app.data.current.address=this.value" value=""><br>
                 <label></label> <input type="text" id="citystate" placeholder="City, State PostalCode" onchange="app.data.current.citystate=this.value" value=""><br>
-                <label><i class="fas fa-phone" style="color:#919191;"></i></label>  <input type="text" id="phone" onchange="app.data.current.phone=this.value" placeholder="(xxx) xxx-xxxx" value=""><br>
+                <label><i class="fas fa-phone" style="color:#919191;"></i></label>  <input type="tel" id="phone" onchange="app.data.current.phone=this.value" placeholder="(xxx) xxx-xxxx" value=""><br>
                 <label><i class="fas fa-envelope" style="color:#919191;"></i></label> <input type="text" id="email" onchange="app.data.current.email=this.value" placeholder="email@example.com" value="">
         </blockquote>
     </div>
@@ -105,6 +111,7 @@
 </dialog>
 
 <script src="main.js"></script>
+<a class="githubLink" href="https://github.com/chrisrobison/invoice"><img decoding="async" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" loading="lazy" data-recalc-dims="1"></a>
 </body>
 
 </html>

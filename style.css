@@ -273,6 +273,7 @@ blockquote#to>label {
     text-align: right;
     background: #35363a;
     height: 3rem;
+    color: #ddd;
 }
 
 #invoices {
@@ -601,3 +602,17 @@ input#item-rate, input#item-qty {
     border-bottom: 0px;
 }
 
+.githubLink {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.btnpad {
+    display: inline-block;
+    width: 3px;
+    border-right: 1px solid #aaa2;
+    box-shadow: 1px 0px 0px #aaa;
+    height: 2rem;
+    margin-right: 1rem;
+    padding-left: 1rem;
+}
