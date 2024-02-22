@@ -5,37 +5,13 @@ const $$ = str => document.querySelectorAll(str);
     const app = {
         data: {
             id: 0,
-            lineitems: [{
-                    date: "7/15/2023",
-                    service: "Software Development",
-                    qty: 4,
-                    rate: 75,
-                    desc: "Performed work on invoicing system",
-                    total: 300
-                },
-                {
-                    date: "7/20/2023",
-                    service: "System Administration",
-                    qty: 2,
-                    rate: 75,
-                    desc: "Security updates",
-                    total: 150
-                },
-                {
-                    date: "7/25/2023",
-                    service: "System Development",
-                    qty: 8,
-                    rate: 75,
-                    desc: "Customer portal, request &amp; invoicing",
-                    total: 600
-                }
-
-            ]
+            lineitems: []
         },
         state: {
             loaded: false,
             rowedit: "",
-            debug: 0
+            debug: 1,
+            tabindex: 1
         },
         init: function() {
             // app.getData(app.buildInvoice);
@@ -65,6 +41,13 @@ const $$ = str => document.querySelectorAll(str);
                     app.saveRow(e);             
                 }
             }
+
+            if (e.keyCode == 13) {
+                $(":focus").blur();
+            }
+            if (e.keyCode == 27) {
+                $(":focus").blur();
+            }
         },
         loadInvoice: function(e) {
             if (app.state.debug) {
@@ -73,13 +56,19 @@ const $$ = str => document.querySelectorAll(str);
             }
             app.resetInvoice();
             app.data.id = $("#invoices").options[$("#invoices").selectedIndex].value;
-
+            
             app.data.current = app.data.invoices[app.data.id];
+            app.data.lineitems =  [];
+
+            //app.data.invoices[app.data.id].lineitems.forEach((item, idx) => {
+            //    app.data.lineitems[idx] = new LineItem({Date: item.date, Service: item.service, Rate: item.rate, Hours: item.qty, Desc: item.desc});
+            //});
             app.buildInvoice();
 
         },
-        getData: function(callback) {
-            fetch("invoices.json").then(r => r.json()).then(data => {
+        // Retrieves url and passes results to callback
+        getData: function(url="invoices.json", callback) {
+            fetch(url).then(r => r.json()).then(data => {
                 app.data.invoices = data;
                 app.data.current = app.data.invoices[0];
                 if (app.state.debug) {
@@ -117,37 +106,46 @@ const $$ = str => document.querySelectorAll(str);
                 console.log("deleteItem");
                 console.dir(e);
             }
-            let id = parseInt(e.target.id.replace(/\D/g, ""));
-            if (confirm("Delete row?")) {
-                e.target.parentNode.removeChild(e.target);
-                app.data.current.lineitems.splice(id, 1);
+            let id = parseInt(e.target.closest('tr').id.replace(/\D/g, ""));
+            if (id && confirm("Delete row?")) {
+                e.target.closest("tr").parentNode.removeChild(e.target.closest("tr"));
+                app.data.current.lineitems.splice(id - 1, 1);
+                app.data.lineitems.splice(id - 1, 1);
             }
         },
-        makeRow: function(item) {
+        makeRow: function(item, idx) {
             let row = document.createElement("tr");
+            row.dataset.record = JSON.stringify(item);
+            row.dataset.row_id = idx;
+            row.id = `lineitem_${idx}`;
+
             if (item) {
                 row.className = "lineitem";
                 let html = `
-                        <td>${item.date}</td>
-                        <td>${item.service}</td>
-                        <td>${item.qty}</td>
-                        <td>$${item.rate}/hr</td>
-                        <td>${item.desc}</td>
-                        <td style='text-align:right;'>$${item.total}</td>
-                        <td><div class='rowEditWrap'><button class='smBtn editBtn' onclick='app.editRow(event)'></button><button class='smBtn rmBtn'></button></div></td>`;
+                        <td class="date" oninput="app.updateCell(${idx}, 'date')" contenteditable="true">${item.date}</td>
+                        <td class="service" oninput="app.updateCell(${idx}, 'service')" contenteditable="true">${item.service}</td>
+                        <td class="qty" oninput="app.updateCell(${idx}, 'qty')" contenteditable="true">${item.qty}</td>
+                        <td class="rate" oninput="app.updateCell(${idx}, 'rate')" contenteditable="true">$${item.rate}/hr</td>
+                        <td class="desc" oninput="app.updateCell(${idx}, 'desc')" contenteditable="true">${item.desc}</td>
+                        <td class="total" oninput="app.updateCell(${idx}, 'total')" style='text-align:right;' contenteditable="true">$${item.total}</td>
+                        <td><button class='smBtn rmBtn'></button></div></td>`;
                 row.innerHTML = html;
             }
+            row.addEventListener("click", app.editRow2);
             return row;
+        },
+        updateCell(idx, key) {
+            
         },
         buildInvoice: function() {
             let tbl = $(".lineitems tbody");
+            app.data.lineitems = [];
             app.data.current.lineitems.forEach((item, idx) => {
-                let row = app.makeRow(item);
-                row.id = `idx_${idx}`;
-                tbl.insertBefore(row, $("#lastrow"));
+                app.data.lineitems.push(new LineItem({Date: item.Date || item.date, Service: item.Service || item.service, Rate: item.Rate || item.rate, Hours: item.Hours || item.qty, Desc: item.Desc || item.desc }));
             });
-            
+
             $("#company").value = app.data.current.company;
+            $("#attn").value = app.data.current.attn;
             $("#email").value = app.data.current.email;
             $("#phone").value = app.data.current.phone;
             $("#address").value = app.data.current.address;
@@ -155,7 +153,7 @@ const $$ = str => document.querySelectorAll(str);
             $("#date").value = app.data.current.date;
             $("#invoice_id").innerHTML = app.data.current.id;
 
-            app.updateTotals();
+            app.updateTotals(app.data.lineitems);
         },
         resetInvoice: function() {
             if (app.state.debug) {
@@ -169,10 +167,11 @@ const $$ = str => document.querySelectorAll(str);
             });
 
         },
-        updateTotals: function() {
+        updateTotals: function(lineitems) {
             let subtot = 0;
-            app.data.current.lineitems.forEach(item => {
-                subtot += item.total;
+            lineitems.forEach(item => {
+                console.dir(item);
+                subtot += item.Subtotal;
             });
 
             $("#subtotal").innerHTML = '$' + subtot.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + '.00';
@@ -180,6 +179,9 @@ const $$ = str => document.querySelectorAll(str);
             $("#tax").innerHTML = "$0.00";
             let tot = parseInt(subtot) + parseInt(tax);
             $("#totaldue").innerHTML = '$' + tot.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + '.00';
+            
+            app.data.current.subtotal = subtot;
+            app.data.current.tax = tax;
             app.data.current.total = tot;
 
             if (!app.data.current.paid) {
@@ -225,7 +227,7 @@ const $$ = str => document.querySelectorAll(str);
             $(`#${app.state.rowedit}`).replaceWith(row);
 
             app.state.rowedit = '';
-            app.updateTotals();
+            app.updateTotals(app.data.lineitems);
         },
         cancelEdit: function() {
             if (app.state.editOriginal) {
@@ -238,20 +240,36 @@ const $$ = str => document.querySelectorAll(str);
                 app.state.rowedit = '';
             }
         },
+        editRow2(e) {
+            console.log("editRow2");
+            console.dir(e);
+            let tgtrow = e.target.closest("tr"), rec;
+            if (tgtrow) {
+                rec = JSON.parse(tgtrow.dataset.record);
+            }
+
+            console.dir(rec);
+        },
         editRow: function(e) {
             console.log("editRow");
             console.dir(e);
-            let el = e.target;
-            while (el.tagName != "TR") {
-                el = el.parentElement;
-            }
-            let idx = parseInt(el.id.replace(/\D/g, ''));
-            let row = app.data.lineitems[idx];
+            console.dir(app.data);
+            let el = e.target.closest("tr");
+            
+            const idx = parseInt(el.id.replace(/\D/g, ''));
+            const row = app.data.lineitems[idx];
             app.state.editIndex = idx;
-            let dparts = row.date.split(/\//);
-            if (dparts[0] < 10) dparts[0] = '0' + dparts[0];
-            if (dparts[1] < 10) dparts[1] = '0' + dparts[1];
-            let date = dparts[2] + '-' + dparts[0] + '-' + dparts[1];
+            console.dir(row);
+            let date, dparts;
+            if (row.date) {
+                dparts = row.date.split(/\//);
+            } else {
+                const now = new Date();
+                dparts = [now.getMonth() + 1, now.getDate(), now.getYear() ]
+            } 
+            if (parseInt(dparts[0]) < 10) dparts[0] = '0' + parseInt(dparts[0]);
+            if (parseInt(dparts[1]) < 10) dparts[1] = '0' + parseInt(dparts[1]);
+            date = dparts[2] + '-' + dparts[0] + '-' + dparts[1];
 
 
             let newrow = document.createElement("tr");
@@ -271,25 +289,11 @@ const $$ = str => document.querySelectorAll(str);
             el.replaceWith(newrow);
             app.state.rowedit = "editrow";
         },
-        addRow: function() {
-            let newrow = document.createElement("tr");
-            newrow.id = "newrow";
-            newrow.className = "lineitem";
-            newrow.innerHTML = `
-                <td><input type="date" id="item-date" name="item-date"></td>
-				<td><input type='text' id='item-service' placeholder='Service Rendered'></td>
-				<td><input type='text' id='item-qty' placeholder='8' size='2'></td>
-				<td class='nowrap'>$<input type='text' id='item-rate' placeholder='75' size='3'>/hr</td>
-				<td><input type='text' id='item-desc' placeholder='Service description' size='25'></td>
-				<td id='item-subtotal'></td>
-				<td><button onclick="return app.saveRow(event)"><i class="fa-solid fa-floppy-disk"></i></button></td>`;
-            $(".lineitems tbody").insertBefore(newrow, $("#lastrow"));
-            app.state.rowedit = "newrow";
-            
-            setTimeout(function() {
-                $("#item-date").showPicker();
-                $("#item-date").focus();
-            }, 10);
+        addRow: function(obj={ Date: new Date().getTime(), Service: "IT Services", Rate: 75, Hours: 4, Desc: "Server Maintenence and Security Updates"}) {
+            let li = new LineItem(obj);
+            app.data.lineitems.push(li);
+            app.data.current.lineitems.push(li);
+            return li;
         },
         fetch: function(url, callback) {
             fetch(url).then(response => response.json()).then(data => {
@@ -314,7 +318,36 @@ const $$ = str => document.querySelectorAll(str);
                 app.makeInvoiceList();
                 app.buildInvoice();
             } else {
-                app.getData(app.populateData);
+                app.getData("invoices.json", app.populateData);  
+            }
+        },
+        async saveToServer() {
+            const rawResponse = await fetch(`api.php?x=put&id=${app.data.id}`, {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(app.data.current)
+            });
+            const response = await rawResponse.json();
+            
+            if (response) {
+                console.log("saveToServer Response:");
+                console.dir(response);
+                
+                let modtime = new Date(response.modified * 1000);
+                let mo = modtime.getMonth() + 1;
+                if (mo < 10) mo = '0' + mo;
+                let day = modtime.getDate();
+                if (day < 10) day = '0' + day;
+                let yr = modtime.getFullYear();
+                
+                let notice = `Invoice saved successfully.
+Filename: ${response.filename}
+Modified: ${mo}/${day}/${yr} ${modtime.getHours()}:${modtime.getMinutes()}:${modtime.getSeconds()}
+Size: ${response.filesize}`;
+                alert(notice);
             }
         },
         populateData: function() {
@@ -388,8 +421,10 @@ const $$ = str => document.querySelectorAll(str);
             app.buildInvoice();
         },
         saveInvoice: function() {
-            app.updateTotals();
+            app.data.current.lineitems = app.data.lineitems;
+            app.updateTotals(app.data.lineitems);
             app.storeData();
+            app.saveToServer();
         },
         removeInvoice: function() {
             if (confirm(`Are you sure you want to permenantly \ndelete Invoice ${app.data.current.id} [${app.data.id}]?`)) {
@@ -418,9 +453,14 @@ const $$ = str => document.querySelectorAll(str);
         },
         showDialog: str => $(`#${str}Dialog`)?.showModal(),
         showHelp: () => {
-            $("#helpDialog").showModal();
+            $("#helpDialog").style.scale = 1;
         },
-        closeDialog(who) { $(`#${who}Dialog`)?.close(); },
+        closeDialog(who) { 
+            let del = $(`#${who}Dialog`);
+            if (del) {
+                del.style.scale = 1; 
+            }
+        },
         changeHelpTab(evt) {
             let matches;
             if (matches = evt.target.id.match(/helpTab\-(\w+)/)) {
