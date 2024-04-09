@@ -13,14 +13,14 @@ const $$ = str => document.querySelectorAll(str);
             debug: 1,
             tabindex: 1
         },
-        init: function() {
+        init() {
             // app.getData(app.buildInvoice);
             app.loadData();
             $("#invoices").addEventListener("change", app.loadInvoice);
             document.addEventListener("keydown", app.doKey);
             app.state.loaded = true;
         },
-        doKey: function(e) {
+        doKey(e) {
             if (app.state.rowedit) {
                 if (e.keyCode == 27) {
                     if ((app.state.rowedit === "editrow") && (app.state.editOriginal)) {
@@ -43,13 +43,19 @@ const $$ = str => document.querySelectorAll(str);
             }
 
             if (e.keyCode == 13) {
-                $(":focus").blur();
+                if ($(":focus")) {
+                    $(":focus").blur();
+                }
+                app.updateTotals(app.data.lineitems);
             }
             if (e.keyCode == 27) {
-                $(":focus").blur();
+                if ($(":focus")) {
+                    $(":focus").blur();
+                }
+                app.updateTotals(app.data.lineitems);
             }
         },
-        loadInvoice: function(e) {
+        loadInvoice(e) {
             if (app.state.debug) {
                 console.log("loadInvoice");
                 console.dir(e);
@@ -67,7 +73,7 @@ const $$ = str => document.querySelectorAll(str);
 
         },
         // Retrieves url and passes results to callback
-        getData: function(url="invoices.json", callback) {
+        getData(url="invoices.json", callback) {
             fetch(url).then(r => r.json()).then(data => {
                 app.data.invoices = data;
                 app.data.current = app.data.invoices[0];
@@ -80,7 +86,7 @@ const $$ = str => document.querySelectorAll(str);
                 callback();
             });
         },
-        makeInvoiceList: function() {
+        makeInvoiceList() {
             data = app.data.invoices;
             $("#invoices").innerHTML = "";
             data.forEach((item, idx) => {
@@ -94,14 +100,22 @@ const $$ = str => document.querySelectorAll(str);
                 $("#invoices").appendChild(opt);
             });
         },
-        printInvoice: function() {
+        makePDF() {
+            $("body").classList.add("print");
+            let el = $("main");
+            html2pdf(el, {
+                filename: app.data.current.id + '.pdf'
+            });
+
+        },
+        printInvoice() {
             $("body").classList.add("print");
             let el = $("main");
             html2pdf(el, {
                 filename: app.data.current.id + '.pdf'
             });
         },
-        deleteItem: function(e) {
+        deleteItem(e) {
             if (app.state.debug) {
                 console.log("deleteItem");
                 console.dir(e);
@@ -113,7 +127,7 @@ const $$ = str => document.querySelectorAll(str);
                 app.data.lineitems.splice(id - 1, 1);
             }
         },
-        makeRow: function(item, idx) {
+        makeRow(item, idx) {
             let row = document.createElement("tr");
             row.dataset.record = JSON.stringify(item);
             row.dataset.row_id = idx;
@@ -137,7 +151,7 @@ const $$ = str => document.querySelectorAll(str);
         updateCell(idx, key) {
             
         },
-        buildInvoice: function() {
+        buildInvoice() {
             let tbl = $(".lineitems tbody");
             app.data.lineitems = [];
             app.data.current.lineitems.forEach((item, idx) => {
@@ -155,7 +169,7 @@ const $$ = str => document.querySelectorAll(str);
 
             app.updateTotals(app.data.lineitems);
         },
-        resetInvoice: function() {
+        resetInvoice() {
             if (app.state.debug) {
                 console.log("reseting invoice");
             }
@@ -167,7 +181,7 @@ const $$ = str => document.querySelectorAll(str);
             });
 
         },
-        updateTotals: function(lineitems) {
+        updateTotals(lineitems) {
             let subtot = 0;
             lineitems.forEach(item => {
                 console.dir(item);
@@ -192,7 +206,7 @@ const $$ = str => document.querySelectorAll(str);
 
             app.makeInvoiceList();
         },
-        saveRow: function(evt) {
+        saveRow(evt) {
             if (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
@@ -229,7 +243,7 @@ const $$ = str => document.querySelectorAll(str);
             app.state.rowedit = '';
             app.updateTotals(app.data.lineitems);
         },
-        cancelEdit: function() {
+        cancelEdit() {
             if (app.state.editOriginal) {
                 let el = document.createElement("tr");
                 el.id = "idx_" + app.state.editIndex;
@@ -250,7 +264,7 @@ const $$ = str => document.querySelectorAll(str);
 
             console.dir(rec);
         },
-        editRow: function(e) {
+        editRow(e) {
             console.log("editRow");
             console.dir(e);
             console.dir(app.data);
@@ -289,13 +303,13 @@ const $$ = str => document.querySelectorAll(str);
             el.replaceWith(newrow);
             app.state.rowedit = "editrow";
         },
-        addRow: function(obj={ Date: new Date().getTime(), Service: "IT Services", Rate: 75, Hours: 4, Desc: "Server Maintenence and Security Updates"}) {
+        addRow(obj={ Date: new Date().getTime(), Service: "IT Services", Rate: 75, Hours: 4, Desc: "Server Maintenence and Security Updates"}) {
             let li = new LineItem(obj);
             app.data.lineitems.push(li);
             app.data.current.lineitems.push(li);
             return li;
         },
-        fetch: function(url, callback) {
+        fetch(url, callback) {
             fetch(url).then(response => response.json()).then(data => {
                 app.data = data;
                 app.state.loaded = true;
@@ -304,11 +318,11 @@ const $$ = str => document.querySelectorAll(str);
                 }
             });
         },
-        storeData: function() {
+        storeData() {
             let json = JSON.stringify(app.data.invoices);
             localStorage.setItem('invoices', json);
         },
-        loadData: function() {
+        loadData() {
             let json = localStorage.getItem('invoices');
 
             if (json) {
@@ -350,12 +364,12 @@ Size: ${response.filesize}`;
                 alert(notice);
             }
         },
-        populateData: function() {
+        populateData() {
             app.storeData('invoices', JSON.stringify(app.data.invoices));
             app.data.current = app.data.invoices[0];
             app.buildInvoice();
         },
-        display: function(data, tgt) {
+        display(data, tgt) {
             let out = "<table><thead><tr>";
             const keys = Object.keys(data[0]);
             if (keys) {
@@ -378,7 +392,7 @@ Size: ${response.filesize}`;
             }
             return out;
         },
-        makeSerial: function() {
+        makeSerial() {
             let serial = "";
             let now = new Date();
 
@@ -394,11 +408,11 @@ Size: ${response.filesize}`;
             serial = yr + '' + mo + '' + day + '' + app.data.invoices.length;
             return serial;
         },
-        makeDate: function() {
+        makeDate() {
             let now = new Date();
             return now.toJSON().substring(0, 10);
         },
-        newInvoice: function() {
+        newInvoice() {
             $$(".lineitem").forEach(item => item.parentNode.removeChild(item));
 
             let id = app.makeSerial();
@@ -420,13 +434,13 @@ Size: ${response.filesize}`;
             app.makeInvoiceList();
             app.buildInvoice();
         },
-        saveInvoice: function() {
+        saveInvoice() {
             app.data.current.lineitems = app.data.lineitems;
             app.updateTotals(app.data.lineitems);
             app.storeData();
             app.saveToServer();
         },
-        removeInvoice: function() {
+        removeInvoice() {
             if (confirm(`Are you sure you want to permenantly \ndelete Invoice ${app.data.current.id} [${app.data.id}]?`)) {
                 app.data.invoices.splice(app.data.id, 1);
                 app.data.id = 0;
@@ -435,10 +449,10 @@ Size: ${response.filesize}`;
                 app.makeInvoiceList();
             }
         },
-        importData: function() {
+        importData() {
             $("#importDialog").showModal();
         },
-        exportData: function() {
+        exportData() {
             let data = JSON.stringify(app.data.invoices);
             let el = document.createElement('a');
             let now = app.makeSerial();

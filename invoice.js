@@ -6,8 +6,9 @@ class Invoice {
 
 }
 
-class Business {
-    
+class Company {
+    #fields = ['ID','Company','Contact','Address','Address2','City','State','Zip','Phone','Email','Notes'];
+
     constructor(obj) {
 
     }
@@ -101,7 +102,7 @@ class LineItem {
     }
     set Desc(val) {
         this.#desc= val;
-        this.update();
+        this.update('Desc');
     }
     get Desc() {
         return this.#desc;
@@ -123,16 +124,22 @@ class LineItem {
             return '$' + amt;
         }
     }
-    update() {
-        this.#fields.forEach(field=>{
+    update(field) {
+        if (!field) {
+            this.#fields.forEach(field=>{
+                if (this.#elements[field] && !this.#elements[field].matches(":focus")) {
+                    this.#elements[field].innerHTML = this[field];
+                    if (field === "ID") {
+                        this.#elements[field].innerHTML += '. ';
+                    }
+                }
+            });
+        } else {
             if (this.#elements[field] && !this.#elements[field].matches(":focus")) {
                 this.#elements[field].innerHTML = this[field];
-                if (field === "ID") {
-                    this.#elements[field].innerHTML += '. ';
-                }
-                //console.log(`Displaying ${field} with ${this[field]}`);
             }
-        });
+         
+        }
         this.#elements.Subtotal.innerHTML = '$' + (this.#hours * this.#rate);
     }
     render() {
@@ -169,6 +176,7 @@ class LineItem {
             td.addEventListener("input", function(e) {
                 console.log(`changing ${field} to ${td.innerHTML}`);
                 self[field] = td.innerText;
+                app.updateTotals(app.data.lineitems);
             });
             
             td.addEventListener("focus", function(e) {

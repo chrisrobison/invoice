@@ -102,8 +102,9 @@ table.lineitems {
     border: 1px solid #0003;
 }
 
-table.tally label {
+.tally td.label {
     width: 15rem;
+    border-right: 1px solid #0006;
 }
 
 table.lineitems td {
@@ -660,7 +661,11 @@ select:focus, select:focus-visible {
 }
 .Service {
     text-align: left;
+    white-space: nowrap;
 }
 .Hours {
     text-align: center;
+}
+#summary td {
+    background-color: #fff;
 }

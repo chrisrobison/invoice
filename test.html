@@ -16,17 +16,17 @@
 <body>
 <nav>
     <div class='toolbar'>
-        <span class='btngroup'><button id='newBtn' class='btn' title="New Invoice" onclick="return app.newInvoice()">New</button></span>
-        <span class='btngroup'><button id='saveBtn' class='btn' title="Save Invoice" onclick="return app.saveInvoice()">Save</button></span>
-        <span class='btngroup'><button id='printBtn' class='btn' title="Print Invoice" onclick="return app.printInvoice()">Print</button></span>  
+        <span class='btngroup'><button id='newBtn' class='btn' title="New Invoice" onclick="return app.newInvoice()"></button>New</span>
+        <span class='btngroup'><button id='saveBtn' class='btn' title="Save Invoice" onclick="return app.saveInvoice()"></button>Save</span>
+        <span class='btngroup'><button id='printBtn' class='btn' title="Print Invoice" onclick="return app.printInvoice()"></button>Print</span>  
         <span class="btnpad"></span>
-        <span class='btngroup'><button id='importBtn' class='btn' title="Import Data" onclick="return app.importData()">Import</button></span>
-        <span class='btngroup'><button id='exportBtn' class='btn' title="Export Data" onclick="return app.exportData()">Export</button></span>
-        <span class='btngroup' style='display:none'><button id='archiveBtn' class='btn' title="Archive Invoice" onclick="return app.archiveInvoice()">Archive</button></span>
+        <span class='btngroup'><button id='importBtn' class='btn' title="Import Data" onclick="return app.importData()"></button>Import</span>
+        <span class='btngroup'><button id='exportBtn' class='btn' title="Export Data" onclick="return app.exportData()"></button>Export</span>
+        <span class='btngroup' style='display:none'><button id='archiveBtn' class='btn' title="Archive Invoice" onclick="return app.archiveInvoice()"></button>Archive</span>
         <span class="btnpad"></span>
-        <span class='btngroup'><button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()">Del</button></span>
+        <span class='btngroup'><button id='delBtn' class='btn' title="Delete Invoice" onclick="return app.removeInvoice()"></button>Del</span>
         <span class="btnpad"></span>
-        <span class='btngroup'><button id='helpBtn' class='btn' title="Help" onclick="return app.showHelp()">Help</button></span>
+        <span class='btngroup'><button id='helpBtn' class='btn' title="Help" onclick="return app.showHelp()"></button>Help</span>
         <span class="btnpad"></span>
     </div>
     <div id="toolbar2">
@@ -44,17 +44,16 @@
         From:
         <blockquote>
             <label id="owner-name" contenteditable>Christopher Robison</label><br>
-            <div class="address-icon" id="owner-address" contenteditable>621 Holloway Ave</div>
-            <div id="owner-city" contenteditable>San Francisco, CA 94112</div>
-            <a class="phone-icon" id="owner-phone" href="tel:4158106991" contenteditable>(415) 810-6991</a><br>
-            <a class="email-icon" id="owner-email" href="mailto:cdr@cdr2.com" contenteditable>cdr@cdr2.com</a></p>
+            <span id="owner-address" contenteditable>621 Holloway Ave</span><br>
+            <span id="owner-city" contenteditable>San Francisco, CA 94112</span><br>
+            <a id="owner-phone" href="tel:4158106991" contenteditable>(415) 810-6991</a><br>
+            <a id="owner-email" href="mailto:cdr@cdr2.com" contenteditable>cdr@cdr2.com</a></p>
         </blockquote>
     </div>
     <div class="address" style="border-left: 1px solid #0004;">
         To:
         <blockquote id="to" >
             <label><i class="fas fa-building" style="color:#919191;"></i></label> <input type="text" id="company" placeholder="Company Name" value="" onchange="app.data.current.company=this.value" style="font-size:1.1rem;font-weight:400;"><br>
-            <label><i class="fas fa-user-tie" style="color:#919191;"></i></label>  <input type="text" id="attn" placeholder="Attn:" onchange="app.data.current.attn=this.value" value=""><br>
             <label><i class="fas fa-location-dot" style="color:#919191;"></i></label>  <input type="text" id="address" placeholder="Address" onchange="app.data.current.address=this.value" value=""><br>
                 <label></label> <input type="text" id="citystate" placeholder="City, State PostalCode" onchange="app.data.current.citystate=this.value" value=""><br>
                 <label><i class="fas fa-phone" style="color:#919191;"></i></label>  <input type="tel" id="phone" onchange="app.data.current.phone=this.value" placeholder="(xxx) xxx-xxxx" value=""><br>
@@ -65,19 +64,19 @@
 <table class="lineitems">
     <thead>
         <tr>
-            <th>#</th><th>Date</th><th>Service</th><th>Hours</th><th>Rate</th><th>Description</th><th>Subtotal</th><th></th>
+            <th>Date</th><th>Service</th><th>Hours</th><th>Rate</th><th>Description</th><th>Subtotal</th><th></th>
         </tr>
     </thead>
     <tbody>
-        <tr id="lastrow"><td colspan="8" style="color:#ccc;font-style:italic;text-align:center;" onclick="app.addRow();">+ Click to add line item</td></tr>
-        <tr id="summary">
-            <td colspan="5" style="text-align:right">
+        <tr id="lastrow"><td colspan="7" style="color:#ccc;font-style:italic;" onclick="app.addRow();">Click to add line item</td></tr>
+        <tr>
+            <td colspan="4" style="text-align:right">
             </td>
-            <td colspan="3" style="text-align:right">
+            <td colspan="2" style="text-align:right">
                 <table class="tally">
-                    <tr><td class="label">Subtotal</td><td id="subtotal"></td></tr>
+                    <tr><td class="label">Subtotal</td><td id="subtotal" contenteditable></td></tr>
                     <tr><td class="label">Tax</td><td id="tax" contenteditable></td></tr>
-                    <tr><td class="label">Total Due</td><td id="totaldue"></td></tr>
+                    <tr><td class="label">Total Due</td><td id="totaldue" contenteditable></td></tr>
                 </table>
             </td>
         </tr>
