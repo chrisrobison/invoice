@@ -53,12 +53,12 @@
     <div class="address" style="border-left: 1px solid #0004;">
         To:
         <blockquote id="to" >
-            <label><i class="fas fa-building" style="color:#919191;"></i></label> <input type="text" id="company" placeholder="Company Name" value="" onchange="app.data.current.company=this.value" style="font-size:1.1rem;font-weight:400;"><br>
-            <label><i class="fas fa-user-tie" style="color:#919191;"></i></label>  <input type="text" id="attn" placeholder="Attn:" onchange="app.data.current.attn=this.value" value=""><br>
-            <label><i class="fas fa-location-dot" style="color:#919191;"></i></label>  <input type="text" id="address" placeholder="Address" onchange="app.data.current.address=this.value" value=""><br>
-                <label></label> <input type="text" id="citystate" placeholder="City, State PostalCode" onchange="app.data.current.citystate=this.value" value=""><br>
-                <label><i class="fas fa-phone" style="color:#919191;"></i></label>  <input type="tel" id="phone" onchange="app.data.current.phone=this.value" placeholder="(xxx) xxx-xxxx" value=""><br>
-                <label><i class="fas fa-envelope" style="color:#919191;"></i></label> <input type="text" id="email" onchange="app.data.current.email=this.value" placeholder="email@example.com" value="">
+            <label><i title="Company Name" class="fas fa-building" style="color:#919191;"></i></label> <input title="Company" type="text" id="company" placeholder="Company Name" value="" onchange="app.data.current.company=this.value" style="font-size:1.1rem;font-weight:400;"><br>
+            <label><i title="Attn To" class="fas fa-user-tie" style="color:#919191;"></i></label>  <input title="Attn To" type="text" id="attn" placeholder="Attn:" onchange="app.data.current.attn=this.value" value=""><br>
+            <label><i title="Street Address" class="fas fa-location-dot" style="color:#919191;"></i></label>  <input title="Street Address" type="text" id="address" placeholder="Address" onchange="app.data.current.address=this.value" value=""><br>
+                <label></label> <input title="City, State, Postal Code" type="text" id="citystate" placeholder="City, State PostalCode" onchange="app.data.current.citystate=this.value" value=""><br>
+                <label><i title="Phone" class="fas fa-phone" style="color:#919191;"></i></label>  <input title="Phone" type="tel" id="phone" onchange="app.data.current.phone=this.value" placeholder="(xxx) xxx-xxxx" value=""><br>
+                <label><i title="Email" class="fas fa-envelope" style="color:#919191;"></i></label> <input title="Email" type="text" id="email" onchange="app.data.current.email=this.value" placeholder="email@example.com" value="">
         </blockquote>
     </div>
 </header>
@@ -135,8 +135,7 @@
         </div>
     </form>
 </dialog>
-<script src="invoice.js"></script>
-<script src="main.js"></script>
+<script type="module" src="main.js"></script>
 <a class="githubLink" href="https://github.com/chrisrobison/invoice"><img decoding="async" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" loading="lazy" data-recalc-dims="1"></a>
 </body>
 
