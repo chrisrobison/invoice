@@ -1,0 +1,86 @@
+date|type|callee|caller|duration|notes
+2024-09-22 16:58:00|incoming|Chris Robison|Juana Harris|48|She had to go right away but said she'd call back
+2024-09-22 18:09:00|incoming|Chris Robison|Juana Harris|180|Asked to generate reports for outstanding invoices
+2024-09-22 18:38:00|incoming|Chris Robison|Juana Harris|300|Clarification on reports for outstanding invoices
+2024-09-22 18:43:00|incoming|Chris Robison|Juana Harris|120|Facetime for application support
+2024-09-23 11:52:00|incoming|Chris Robison|Patrick Peterson|53|Checkin on invoicing updates
+2024-09-23 14:53:00|incoming|Chris Robison|Patrick Peterson|120|Server unresponsive
+2024-09-24 11:04:00|incoming|Chris Robison|Juana Harris|160|Asked about numbers for Bay Area Charter
+2024-09-26 09:22:00|incoming|Chris Robison|Juana Harris|60|Asked about more invoice numbers
+2024-09-26 09:34:00|incoming|Chris Robison|Margarita Mino|60|Asked about invoice numbers
+2024-09-26 11:53:00|incoming|Chris Robison|Patrick Peterson|540|Debugging billing tool
+2024-09-26 12:59:00|incoming|Chris Robison|Patrick Peterson|48|Report back tested ok
+2024-09-27 11:42:00|incoming|Chris Robison|Patrick Peterson|180|
+2024-09-27 12:30:00|incoming|Chris Robison|Juana Harris|50|
+2024-09-27 13:50:00|incoming|Chris Robison|Juana Harris|51|
+2024-09-27 16:39:00|incoming|Chris Robison|Margarita Mino|120|
+2024-09-29 14:19:00|outgoing|Juana Harris|Chris Robison|720|
+2024-09-30 19:19:00|outgoing|Juana Harris|Chris Robison|60|
+2024-09-30 20:47:00|incoming|Chris Robison|Juana Harris|0|Voicemail
+2024-10-01 09:48:00|incoming|Chris Robison|Juana Harris|600|
+2024-10-01 10:27:00|incoming|Chris Robison|Juana Harris|0|Voicemail
+2024-10-01 11:11:00|incoming|Chris Robison|Margarita Mino|0|Missed call
+2024-10-01 11:11:00|incoming|Chris Robison|Margarita Mino|42|More invoicing and reporting questions
+2024-10-01 16:11:00|incoming|Chris Robison|Juana Harris|120|
+2024-10-02 10:02:00|incoming|Chris Robison|Patrick Peterson|120|
+2024-10-03 13:21:00|incoming|Chris Robison|Patrick Peterson|120|
+2024-10-19 20:44:00|incoming|Chris Robison|Juana Harris|120|
+2024-10-19 21:09:00|outgoing|Juana Harris|Chris Robison|300|
+2024-10-20 11:48:00|incoming|Chris Robison|Juana Harris|240|
+2024-10-20 14:17:00|email|Chris Robison|Margarita Mino|300|Request to add Youel David and Joanne Peterson to system
+2024-10-20 17:57:00|email|Margarita Mino|Chris Robison|300|Confirmation for Youel & Joanna account creation
+2024-10-21 09:59:00|incoming|Chris Robison|Juana Harris|0|Missed call
+2024-10-21 10:00:00|incoming|Chris Robison|Juana Harris|0|Missed call
+2024-10-21 10:01:00|incoming|Chris Robison|Juana Harris|0|Missed call
+2024-10-21 10:03:00|outgoing|Juana Harris|Chris Robison|300|Callback concerning server being down
+2024-10-21 11:55:00|incoming|Chris Robison|Joanne Peterson|240|Call concerning server
+2024-10-21 11:57:00|incoming|Chris Robison|Margarita Mino|120|Call concerning server
+2024-10-21 13:21:00|incoming|Chris Robison|Juana Harris|0|Missed call
+2024-10-21 15:17:00|outgoing|Juana Harris|Chris Robison|120|Called to update on server status
+2024-10-21 17:22:00|incoming|Chris Robison|Joanne Peterson|1500|Support call from Joanne Peterson
+2024-10-21 18:28:00|incoming|Chris Robison|Margarita Mino|120|Call to request new drivers
+2024-10-22 10:31:00|incoming|Chris Robison|Juana Harris|300|Request to add new drivers Kenny Woods and Allen Simon to system
+2024-10-22 11:37:00|incoming|Chris Robison|Margarita Mino|240|Request to change address on all outgoing communication to PO Box 5961, Vallejo, CA
+2024-10-22 12:40:00|incoming|Chris Robison|Joanne Peterson|60|
+2024-10-22 12:41:00|incoming|Chris Robison|Margarita Mino|360|
+2024-10-22 14:44:00|incoming|Chris Robison|Patrick Peterson|360|
+2024-10-22 14:55:00|incoming|Chris Robison|Joanne Peterson|300|
+2024-10-23 09:05:00|incoming|Chris Robison|Juana Harris|180|
+2024-10-23 11:33:00|incoming|Chris Robison|Joanne Peterson|300|
+2024-10-23 16:26:00|incoming|Chris Robison|Joanne Peterson|120|
+2024-10-25 10:36:00|incoming|Chris Robison|Michelle Mino|120|
+2024-10-25 10:42:00|incoming|Chris Robison|Margarita Mino|60|
+2024-10-25 12:08:00|outgoing|Margarita Mino|Chris Robison|60|
+2024-10-25 14:49:00|incoming|Chris Robison|Juana Harris|0|Missed call
+2024-10-25 14:51:00|outgoing|Juana Harris|Chris Robison|820|
+2024-10-26 15:04:00|incoming|Chris Robison|Patrick Peterson|180|
+2024-10-27 09:55:00|incoming|Chris Robison|Juana Harris|120|
+2024-10-27 10:38:00|incoming|Chris Robison|Juana Harris|60|
+2024-10-27 14:29:00|incoming|Chris Robison|Juana Harris|240|
+2024-10-28 13:36:00|incoming|Chris Robison|Juana Harris|60|
+2024-10-28 16:09:00|incoming|Chris Robison|Juana Harris|540|
+2024-10-28 18:14:00|incoming|Chris Robison|Juana Harris|180|
+2024-10-29 13:30:00|incoming|Chris Robison|Joanne Peterson|240|
+2024-10-29 14:17:00|incoming|Chris Robison|Patrick Peterson|300|
+2024-10-29 16:49:00|incoming|Chris Robison|Patrick Peterson|120|
+2024-10-30 02:52:00|incoming|Chris Robison|Joanne Peterson|3600|
+2024-10-30 12:22:00|incoming|Chris Robison|Patrick Peterson|1080|
+2024-10-30 14:02:00|incoming|Chris Robison|Juana Harris|240|
+2024-10-30 15:33:00|incoming|Chris Robison|Juana Harris|600|
+2024-11-03 11:47:00|incoming|Chris Robison|Margarita Mino|60|
+2024-11-08 01:01:00|incoming|Chris Robison|Joanne Peterson|1380|
+2024-11-08 16:01:00|incoming|Chris Robison|Patrick Peterson|480|
+2024-11-11 12:25:00|incoming|Chris Robison|Juana Harris|60|
+2024-11-11 16:31:00|incoming|Chris Robison|Juana Harris|600|
+2024-11-15 13:59:00|incoming|Chris Robison|Juana Harris|180|
+2024-11-16 02:08:00|incoming|Chris Robison|Joanne Peterson|180|
+2024-11-22 19:50:00|incoming|Chris Robison|Juana Harris|60|
+2024-11-23 01:28:00|incoming|Chris Robison|Patrick Peterson|300|
+2024-11-23 13:21:00|incoming|Chris Robison|Juana Harris|180|
+2024-11-27 18:07:00|incoming|Chris Robison|Patrick Peterson|300|
+2024-11-28 12:26:00|incoming|Chris Robison|Patrick Peterson|60|
+2024-12-01 16:34:00|incoming|Chris Robison|Patrick Peterson|240|
+2024-12-03 11:11:00|incoming|Chris Robison|Juana Harris|240|
+2024-12-03 12:11:00|incoming|Chris Robison|Juana Harris|240|
+2024-12-03 14:02:00|outgoing|Patrick Peterson|Chris Robison|180|
+2024-12-04 10:48:00|outgoing|Joanne Peterson|Chris Robison|720|
